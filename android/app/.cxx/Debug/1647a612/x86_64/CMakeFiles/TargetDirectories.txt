@@ -1,0 +1,2 @@
+C:/Users/Lenovo/Desktop/Final Year Project/Wealthify-main/android/app/.cxx/Debug/1647a612/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/Lenovo/Desktop/Final Year Project/Wealthify-main/android/app/.cxx/Debug/1647a612/x86_64/CMakeFiles/rebuild_cache.dir
