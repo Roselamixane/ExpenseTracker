@@ -3,6 +3,7 @@ import 'package:app/data/model/Finance.dart';
 import 'package:app/data/model/UserData.dart';
 import 'package:app/view/pages/start-screen.dart';
 import 'package:app/view/provider/summaryProvider.dart';
+import 'package:app/view/provider/themeProvider.dart';
 import 'package:app/view/provider/transactionProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -15,7 +16,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   final appDocumentDirectory =
-      await pathProvider.getApplicationDocumentsDirectory();
+  await pathProvider.getApplicationDocumentsDirectory();
 
   Hive.init(appDocumentDirectory.path);
 
@@ -62,28 +63,39 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => summaryProvider()),
-        ChangeNotifierProvider(create: (context) => transactionProvider())
+        ChangeNotifierProvider(create: (_) => summaryProvider()),
+        ChangeNotifierProvider(create: (_) => transactionProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: GoogleFonts.libreCaslonTextTextTheme(),
-        ),
-        home: FutureBuilder(
-          future: openBoxes(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else {
-                return const StartScreen();
-              }
-            } else {
-              return const Scaffold();
-            }
-          },
-        ),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            themeMode: themeProvider.themeMode,
+            theme: ThemeData(
+              brightness: Brightness.light,
+              textTheme: GoogleFonts.libreCaslonTextTextTheme(),
+            ),
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              textTheme: GoogleFonts.libreCaslonTextTextTheme(),
+            ),
+            home: FutureBuilder(
+              future: openBoxes(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  } else {
+                    return const StartScreen();
+                  }
+                } else {
+                  return const Scaffold();
+                }
+              },
+            ),
+          );
+        },
       ),
     );
   }
