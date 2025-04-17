@@ -2,6 +2,7 @@ C/C++ Structured Log†
 ƒ
 €C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\additional_project_files.txtC
 A
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	‡Œõûè2 ¿äçã2
 
 }C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build.json	‡Œõûè2ä Éäçã2ˆ
@@ -26,3 +27,29 @@ vC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debu
 {C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\symbol_folder_index.txt	‡Œõûè2r Ýäçã2K
 I
 GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	‡Œõûè2§ ±üÐŒß2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	…Û‹£ä2 ¿äçã2
+
+}C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build.json	…Û‹£ä2ä Éäçã2ˆ
+…
+‚C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build_mini.json	…Û‹£ä2½ Øäçã2s
+q
+oC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build.ninja	…Û‹£ä2ÛÖ Ðãçã2w
+u
+sC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build.ninja.txt	…Û‹£ä2|
+z
+xC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build_file_index.txt	†Û‹£ä2G ßäçã2}
+{
+yC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\compile_commands.json	†Û‹£ä2
+
+}C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\compile_commands.json.bin	†Û‹£ä2	‰
+†
+ƒC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\metadata_generation_command.txt	†Û‹£ä2
+Ž	 Ûäçã2z
+x
+vC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\prefab_config.json	†Û‹£ä2( Üäçã2
+}
+{C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\symbol_folder_index.txt	†Û‹£ä2r Ýäçã2K
+I
+GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	†Û‹£ä2§ ±üÐŒß2
+>>>>>>> e1220cc (changes in sidebar)

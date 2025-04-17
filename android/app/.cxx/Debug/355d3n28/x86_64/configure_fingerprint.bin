@@ -2,6 +2,7 @@ C/C++ Structured LogÅ
 
 }C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\additional_project_files.txtC
 A
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	Àåı˚Ë2 ñØÇÁ„2~
 |
 zC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\android_gradle_build.json	Ãåı˚Ë2ﬁ ôØÇÁ„2Ñ
@@ -26,3 +27,29 @@ z
 xC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\symbol_folder_index.txt	Ãåı˚Ë2o †ØÇÁ„2K
 I
 GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	Ãåı˚Ë2ß ±¸–åﬂ2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	“‹ã£‰2 ñØÇÁ„2~
+|
+zC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\android_gradle_build.json	“‹ã£‰2ﬁ ôØÇÁ„2Ñ
+Å
+C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\android_gradle_build_mini.json	“‹ã£‰2∑ ùØÇÁ„2p
+n
+lC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\build.ninja	“‹ã£‰2Ã÷ ÕÆÇÁ„2t
+r
+pC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\build.ninja.txt	“‹ã£‰2y
+w
+uC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\build_file_index.txt	”‹ã£‰2G °ØÇÁ„2z
+x
+vC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\compile_commands.json	”‹ã£‰2~
+|
+zC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\compile_commands.json.bin	”‹ã£‰2	Ü
+É
+ÄC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\metadata_generation_command.txt	”‹ã£‰2
+ˇ ûØÇÁ„2w
+u
+sC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\prefab_config.json	”‹ã£‰2( üØÇÁ„2|
+z
+xC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\x86_64\symbol_folder_index.txt	”‹ã£‰2o †ØÇÁ„2K
+I
+GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	”‹ã£‰2ß ±¸–åﬂ2
+>>>>>>> e1220cc (changes in sidebar)
