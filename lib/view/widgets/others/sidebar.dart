@@ -1,92 +1,129 @@
-import 'package:app/data/repository/dbRepository.dart' as dbrepository;
-import 'package:app/view/pages/start-screen.dart';
-import 'package:app/view/provider/summaryProvider.dart';
-import 'package:app/view/provider/transactionProvider.dart';
-import 'package:app/view/provider/themeProvider.dart';
-import 'package:app/view/widgets/dialogBoxs/confirmationBox.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:app/data/model/UserData.dart';
+import 'package:app/view/pages/start-screen.dart';
+import 'package:app/view/provider/themeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Sidebar extends StatelessWidget {
-  const Sidebar({super.key});
-
-  void wipeData(summaryProvider provider, transactionProvider tprovider) {
-    provider.deleteRecords();
-    provider.deleteBudgets();
-    tprovider.deleteRecords();
-  }
-
-  void removeUser(BuildContext context) {
-    dbrepository.removeUser();
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => StartScreen()),
-          (route) => false,
-    );
-  }
+  const Sidebar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<summaryProvider>(context, listen: false);
-    final tprovider = Provider.of<transactionProvider>(context, listen: false);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final username = dbrepository.getUser().userName;
+    final userDataBox = Hive.box('User');
+    final user = userDataBox.get('user', defaultValue: Userdata('', 0.0, false, false, '', true));
 
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text(username),
-            accountEmail: Text(""),
+            accountName: Text(user?.userName ?? 'Guest'),
+            accountEmail: Text(user?.userName ?? 'guest@example.com'),
             currentAccountPicture: CircleAvatar(
-              child: Icon(Icons.person),
+              backgroundImage: user?.profileImagePath != null
+                  ? FileImage(File(user!.profileImagePath!))
+                  : null,
+              child: user?.profileImagePath == null
+                  ? const Icon(Icons.person)
+                  : null,
             ),
-            decoration:
-            BoxDecoration(color: Theme.of(context).colorScheme.primary),
           ),
           ListTile(
-            leading: Icon(Icons.cleaning_services),
-            title: Text("Wipe Data"),
-            onTap: () async {
-              bool val = await showDialog(
-                context: context,
-                builder: (context) {
-                  return confirmBox(
-                      text: "Are you sure you want to wipe all data?");
-                },
-              );
-              if (val) {
-                wipeData(provider, tprovider);
-              }
-            },
-          ),
-          SwitchListTile(
-            secondary: Icon(Icons.brightness_6),
-            title: Text("Change Theme"),
-            value: themeProvider.isDarkMode,
-            onChanged: (val) {
-              themeProvider.toggleTheme(val);
+            leading: const Icon(Icons.palette),
+            title: const Text('Change Theme'),
+            onTap: () {
+              themeProvider.toggleTheme(!themeProvider.isDarkMode);
             },
           ),
           ListTile(
-            leading: Icon(Icons.person_remove),
-            title: Text("Delete User"),
-            onTap: () async {
-              bool val = await showDialog(
-                context: context,
-                builder: (context) {
-                  return confirmBox(
-                      text: "Are you sure you want to remove user?");
-                },
-              );
-              if (val) {
-                removeUser(context);
-              }
+            leading: const Icon(Icons.lock),
+            title: const Text('Change Password'),
+            onTap: () {
+              // Implement change password functionality
+              _changePassword(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Logout'),
+            onTap: () {
+              _logout(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.delete),
+            title: const Text('Delete User'),
+            onTap: () {
+              _deleteUser(context);
             },
           ),
         ],
       ),
+    );
+  }
+
+  // Change Password Logic
+  void _changePassword(BuildContext context) {
+    final userDataBox = Hive.box('User');
+    final user = userDataBox.get('user', defaultValue: Userdata('', 0.0, false, false, '', true));
+
+    if (user != null) {
+      // Prompt user to enter new password
+      showDialog(
+        context: context,
+        builder: (context) {
+          TextEditingController passwordController = TextEditingController();
+          return AlertDialog(
+            title: const Text('Change Password'),
+            content: TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(hintText: 'Enter new password'),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (passwordController.text.isNotEmpty) {
+                    // Save the new password in Hive
+                    user.password = passwordController.text;
+                    userDataBox.put('user', user);
+                    Fluttertoast.showToast(msg: 'Password changed successfully');
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('Change'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  // Logout Logic (Clear user data from Hive)
+  void _logout(BuildContext context) {
+    final userDataBox = Hive.box('User');
+    userDataBox.delete('user'); // Clear user data
+
+    Fluttertoast.showToast(msg: 'Logged out successfully');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const StartScreen()), // Redirect to start screen
+    );
+  }
+
+  // Delete User (Clear all user data)
+  void _deleteUser(BuildContext context) {
+    final userDataBox = Hive.box('User');
+    userDataBox.delete('user'); // Delete user data from Hive
+
+    Fluttertoast.showToast(msg: 'User deleted successfully');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const StartScreen()), // Redirect to start screen
     );
   }
 }

@@ -16,7 +16,9 @@ class Userdata {
   final bool notifications;
   @HiveField(5)
   final bool defaultTheme;
+  @HiveField(6)
+  String? profileImagePath;
 
   Userdata(this.userName, this.balance, this.deviceAuth, this.notifications,
-      this.password, this.defaultTheme);
+      this.password, this.defaultTheme, {this.profileImagePath});
 }
