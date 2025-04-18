@@ -3,8 +3,8 @@ import 'package:app/data/model/Finance.dart';
 import 'package:app/data/model/UserData.dart';
 import 'package:app/view/pages/start-screen.dart';
 import 'package:app/view/provider/summaryProvider.dart';
-import 'package:app/view/provider/themeProvider.dart';
 import 'package:app/view/provider/transactionProvider.dart';
+import 'package:app/view/provider/themeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,18 +13,16 @@ import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  final appDocumentDirectory =
-  await pathProvider.getApplicationDocumentsDirectory();
-
+  final appDocumentDirectory = await pathProvider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
 
   Hive.registerAdapter(FinanceAdapter());
   Hive.registerAdapter(BudgetAdapter());
   Hive.registerAdapter(UserdataAdapter());
 
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
 
   runApp(const MyApp());
 }
@@ -40,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   late Box financeBox;
   late Box budgetBox;
   late Box userDataBox;
+  bool isDarkMode = false;
 
   @override
   void initState() {
@@ -63,32 +62,27 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => summaryProvider()),
-        ChangeNotifierProvider(create: (_) => transactionProvider()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => summaryProvider()),
+        ChangeNotifierProvider(create: (context) => transactionProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ],
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
+      child: Builder(
+        builder: (context) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             themeMode: themeProvider.themeMode,
-            theme: ThemeData(
-              brightness: Brightness.light,
+            theme: ThemeData.light().copyWith(
               textTheme: GoogleFonts.libreCaslonTextTextTheme(),
             ),
-            darkTheme: ThemeData(
-              brightness: Brightness.dark,
+            darkTheme: ThemeData.dark().copyWith(
               textTheme: GoogleFonts.libreCaslonTextTextTheme(),
             ),
             home: FutureBuilder(
               future: openBoxes(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  } else {
-                    return const StartScreen();
-                  }
+                  return const StartScreen();
                 } else {
                   return const Scaffold();
                 }

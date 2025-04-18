@@ -5,11 +5,9 @@ part 'UserData.g.dart';
 @HiveType(typeId: 3)
 class Userdata {
   @HiveField(0)
-  String userName;
-
+  final String userName;
   @HiveField(1)
-  String password;
-
+  final String password;
   @HiveField(2)
   double balance;
   @HiveField(3)
@@ -18,7 +16,9 @@ class Userdata {
   final bool notifications;
   @HiveField(5)
   final bool defaultTheme;
+  @HiveField(6)
+  String? profileImagePath;
 
   Userdata(this.userName, this.balance, this.deviceAuth, this.notifications,
-      this.password, this.defaultTheme);
+      this.password, this.defaultTheme, {this.profileImagePath});
 }
