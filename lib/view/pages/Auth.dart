@@ -32,31 +32,40 @@ class _AuthState extends State<Auth> {
     final name = userNameController.text.trim();
     final pass = passwordController.text.trim();
     final rePass = rePasswordController.text.trim();
+
     if (name.isEmpty || pass.isEmpty) return _showSnack('Username and password required');
     if (pass.length < 6) return _showSnack('Password must be at least 6 characters');
     if (pass != rePass) return _showSnack('Passwords do not match');
 
     final userBox = Hive.box('User');
-    if (userBox.get('user') != null) return _showSnack('An account already exists');
+    if (userBox.containsKey(name)) {
+      return _showSnack('Username already taken. Try another one.');
+    }
 
-    final user = Userdata(
-      name, 0.0, false, false, pass, true,
-    );
-    await userBox.put('user', user);
+    final user = Userdata(name, pass, 0.0, false, true, false);
+    await userBox.put(name, user);
+    await userBox.put('currentUser', name);
+
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
   }
 
   void logInUser() {
     final name = userNameController.text.trim();
     final pass = passwordController.text.trim();
+
     final userBox = Hive.box('User');
-    final user = userBox.get('user') as Userdata?;
-    if (user == null) return _showSnack('No account found — please sign up');
-    if (user.userName == name && user.password == pass) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
-    } else {
-      _showSnack('Invalid credentials');
+    if (!userBox.containsKey(name)) {
+      return _showSnack('No account found with that username');
     }
+
+    final user = userBox.get(name) as Userdata;
+    if (user.password != pass) {
+      return _showSnack('Incorrect password');
+    }
+
+    userBox.put('currentUser', name);
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
   }
 
   void _showSnack(String msg) {
