@@ -2,6 +2,7 @@ import 'package:app/data/model/Budget.dart';
 import 'package:app/data/model/Finance.dart';
 import 'package:app/data/model/UserData.dart';
 import 'package:app/view/pages/start-screen.dart';
+import 'package:app/view/pages/auth.dart'; // Import the Auth page
 import 'package:app/view/provider/summaryProvider.dart';
 import 'package:app/view/provider/transactionProvider.dart';
 import 'package:app/view/provider/themeProvider.dart';
@@ -77,8 +78,10 @@ class _MyAppState extends State<MyApp> {
               textTheme: GoogleFonts.libreCaslonTextTextTheme(),
             ),
             home: financeBox.isOpen && budgetBox.isOpen && userDataBox.isOpen
-                ? const StartScreen()
-                : const Scaffold(), // Display StartScreen when boxes are open
+                ? (userDataBox.get('user') == null
+                ? const Auth() // Show Auth page if no user is logged in
+                : const StartScreen()) // Show StartScreen if user exists
+                : const Scaffold(), // Display a blank screen while boxes are loading
           );
         },
       ),

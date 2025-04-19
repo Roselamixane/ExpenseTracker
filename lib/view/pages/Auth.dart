@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:app/data/model/UserData.dart';
 import 'package:app/view/pages/mainScreen.dart';
-import 'package:app/view/pages/start-screen.dart';
 
 class Auth extends StatefulWidget {
   const Auth({Key? key}) : super(key: key);
@@ -15,15 +13,11 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   bool isLoginMode = true;
+  bool isPasswordVisible = false;
+  bool isRePasswordVisible = false;
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   final rePasswordController = TextEditingController();
-  String? profileImagePath;
-
-  Future<void> pickProfileImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (picked != null) setState(() => profileImagePath = picked.path);
-  }
 
   void toggleMode() {
     setState(() {
@@ -31,7 +25,6 @@ class _AuthState extends State<Auth> {
       userNameController.clear();
       passwordController.clear();
       rePasswordController.clear();
-      profileImagePath = null;
     });
   }
 
@@ -48,7 +41,6 @@ class _AuthState extends State<Auth> {
 
     final user = Userdata(
       name, 0.0, false, false, pass, true,
-      profileImagePath: profileImagePath,
     );
     await userBox.put('user', user);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
@@ -103,24 +95,6 @@ class _AuthState extends State<Auth> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    if (!isLoginMode)
-                      GestureDetector(
-                        onTap: pickProfileImage,
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: profileImagePath != null
-                              ? FileImage(File(profileImagePath!))
-                              : null,
-                          backgroundColor: Colors.grey.shade200,
-                          child: profileImagePath == null
-                              ? const Icon(Icons.camera_alt, size: 30)
-                              : null,
-                        ),
-                      ),
-
-                    if (!isLoginMode) const SizedBox(height: 16),
-
                     TextField(
                       controller: userNameController,
                       decoration: InputDecoration(
@@ -134,10 +108,20 @@ class _AuthState extends State<Auth> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: !isPasswordVisible,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock),
                         labelText: 'Password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -147,10 +131,20 @@ class _AuthState extends State<Auth> {
                       const SizedBox(height: 16),
                       TextField(
                         controller: rePasswordController,
-                        obscureText: true,
+                        obscureText: !isRePasswordVisible,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.lock_outline),
+                          prefixIcon: const Icon(Icons.lock),
                           labelText: 'Re-enter Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isRePasswordVisible ? Icons.visibility : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isRePasswordVisible = !isRePasswordVisible;
+                              });
+                            },
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -186,16 +180,6 @@ class _AuthState extends State<Auth> {
                         style: TextStyle(color: themeBlue),
                       ),
                     ),
-                    if (isLoginMode)
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (_) => const StartScreen()),
-                          );
-                        },
-                        child: const Text('Back to Start'),
-                      ),
                   ],
                 ),
               ),
