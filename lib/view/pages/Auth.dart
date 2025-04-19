@@ -39,40 +39,19 @@ class _AuthState extends State<Auth> {
     final name = userNameController.text.trim();
     final pass = passwordController.text.trim();
     final rePass = rePasswordController.text.trim();
-    if (name.isEmpty || pass.isEmpty) {
-      _showSnack('Username and password required');
-      return;
-    }
-    if (pass.length < 6) {
-      _showSnack('Password must be at least 6 characters');
-      return;
-    }
-    if (pass != rePass) {
-      _showSnack('Passwords do not match');
-      return;
-    }
+    if (name.isEmpty || pass.isEmpty) return _showSnack('Username and password required');
+    if (pass.length < 6) return _showSnack('Password must be at least 6 characters');
+    if (pass != rePass) return _showSnack('Passwords do not match');
 
     final userBox = Hive.box('User');
-    if (userBox.get('user') != null) {
-      _showSnack('An account already exists');
-      return;
-    }
+    if (userBox.get('user') != null) return _showSnack('An account already exists');
 
     final user = Userdata(
-      name,                 // userName
-      0.0,                  // balance
-      false,                // deviceAuth
-      false,                // notifications
-      pass,                 // password
-      true,                 // defaultTheme
+      name, 0.0, false, false, pass, true,
       profileImagePath: profileImagePath,
     );
-
     await userBox.put('user', user);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const Main()),  // <-- use Main()
-    );
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
   }
 
   void logInUser() {
@@ -80,15 +59,9 @@ class _AuthState extends State<Auth> {
     final pass = passwordController.text.trim();
     final userBox = Hive.box('User');
     final user = userBox.get('user') as Userdata?;
-    if (user == null) {
-      _showSnack('No account found — please sign up');
-      return;
-    }
+    if (user == null) return _showSnack('No account found — please sign up');
     if (user.userName == name && user.password == pass) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const Main()),  // <-- use Main()
-      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
     } else {
       _showSnack('Invalid credentials');
     }
@@ -100,69 +73,134 @@ class _AuthState extends State<Auth> {
 
   @override
   Widget build(BuildContext context) {
+    final themeBlue = const Color.fromARGB(255, 11, 103, 195);
     return Scaffold(
-      appBar: AppBar(title: Text(isLoginMode ? 'Log In' : 'Sign Up')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            if (!isLoginMode) ...[
-              GestureDetector(
-                onTap: pickProfileImage,
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundImage: profileImagePath != null
-                      ? FileImage(File(profileImagePath!))
-                      : null,
-                  child: profileImagePath == null
-                      ? const Icon(Icons.camera_alt, size: 32)
-                      : null,
+      backgroundColor: const Color.fromARGB(255, 149, 229, 241),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Center(
+            child: Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              elevation: 10,
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'lib/assets/images/splashLogo1.png',
+                      height: 100,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      isLoginMode ? 'Log In' : 'Sign Up',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: themeBlue,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    if (!isLoginMode)
+                      GestureDetector(
+                        onTap: pickProfileImage,
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundImage: profileImagePath != null
+                              ? FileImage(File(profileImagePath!))
+                              : null,
+                          backgroundColor: Colors.grey.shade200,
+                          child: profileImagePath == null
+                              ? const Icon(Icons.camera_alt, size: 30)
+                              : null,
+                        ),
+                      ),
+
+                    if (!isLoginMode) const SizedBox(height: 16),
+
+                    TextField(
+                      controller: userNameController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.person),
+                        labelText: 'Username',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        labelText: 'Password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    if (!isLoginMode) ...[
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: rePasswordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          labelText: 'Re-enter Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: isLoginMode ? logInUser : createNewUser,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(250, 55),
+                        backgroundColor: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        isLoginMode ? 'Log In' : 'Sign Up',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextButton(
+                      onPressed: toggleMode,
+                      child: Text(
+                        isLoginMode
+                            ? "Don't have an account? Sign up"
+                            : "Already have one? Log in",
+                        style: TextStyle(color: themeBlue),
+                      ),
+                    ),
+                    if (isLoginMode)
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const StartScreen()),
+                          );
+                        },
+                        child: const Text('Back to Start'),
+                      ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 8),
-              const Text('Tap to upload profile photo'),
-            ],
-            TextField(
-              controller: userNameController,
-              decoration: const InputDecoration(labelText: 'Username'),
             ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            if (!isLoginMode) ...[
-              const SizedBox(height: 12),
-              TextField(
-                controller: rePasswordController,
-                decoration: const InputDecoration(labelText: 'Re-enter Password'),
-                obscureText: true,
-              ),
-            ],
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: isLoginMode ? logInUser : createNewUser,
-              child: Text(isLoginMode ? 'Log In' : 'Sign Up'),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-              onPressed: toggleMode,
-              child: Text(isLoginMode
-                  ? "Don't have an account? Sign up"
-                  : "Already have one? Log in"),
-            ),
-            if (isLoginMode)
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const StartScreen()),
-                  );
-                },
-                child: const Text('Back to Start'),
-              ),
-          ],
+          ),
         ),
       ),
     );
