@@ -44,18 +44,16 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     openBoxes();
-    splashScreen();
   }
 
   Future<void> openBoxes() async {
     financeBox = await Hive.openBox('Finance');
     budgetBox = await Hive.openBox('Budget');
     userDataBox = await Hive.openBox('User');
-  }
 
-  void splashScreen() async {
-    await Future.delayed(const Duration(seconds: 1));
+    // Once the boxes are opened, remove the splash screen.
     FlutterNativeSplash.remove();
+    setState(() {}); // Trigger rebuild once boxes are loaded
   }
 
   @override
@@ -78,16 +76,9 @@ class _MyAppState extends State<MyApp> {
             darkTheme: ThemeData.dark().copyWith(
               textTheme: GoogleFonts.libreCaslonTextTextTheme(),
             ),
-            home: FutureBuilder(
-              future: openBoxes(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return const StartScreen();
-                } else {
-                  return const Scaffold();
-                }
-              },
-            ),
+            home: financeBox.isOpen && budgetBox.isOpen && userDataBox.isOpen
+                ? const StartScreen()
+                : const Scaffold(), // Display StartScreen when boxes are open
           );
         },
       ),
@@ -98,6 +89,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     financeBox.close();
     budgetBox.close();
+    userDataBox.close();
     super.dispose();
   }
 }

@@ -13,51 +13,61 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final userDataBox = Hive.box('User');
-    final user = userDataBox.get('user', defaultValue: Userdata('', 0.0, false, false, '', true));
+    final userBox = Hive.box('User');
+    final user = userBox.get('user') as Userdata?;
 
     return Drawer(
       child: Column(
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(user?.userName ?? 'Guest'),
-            accountEmail: Text(user?.userName ?? 'guest@example.com'),
+            accountEmail: Text(
+                user != null
+                    ? '${user.userName.toLowerCase()}@example.com'
+                    : 'guest@example.com'
+            ),
             currentAccountPicture: CircleAvatar(
               backgroundImage: user?.profileImagePath != null
                   ? FileImage(File(user!.profileImagePath!))
                   : null,
               child: user?.profileImagePath == null
-                  ? const Icon(Icons.person)
+                  ? const Icon(Icons.person, size: 40)
                   : null,
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.palette),
-            title: const Text('Change Theme'),
-            onTap: () {
-              themeProvider.toggleTheme(!themeProvider.isDarkMode);
-            },
+          SwitchListTile(
+            value: themeProvider.isDarkMode,
+            title: const Text('Dark Mode'),
+            secondary: const Icon(Icons.brightness_6),
+            onChanged: themeProvider.toggleTheme,
           ),
           ListTile(
-            leading: const Icon(Icons.lock),
+            leading: const Icon(Icons.lock_reset),
             title: const Text('Change Password'),
-            onTap: () {
-              // Implement change password functionality
-              _changePassword(context);
-            },
+            onTap: () => _changePassword(context, user),
           ),
           ListTile(
-            leading: const Icon(Icons.exit_to_app),
+            leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () {
-              _logout(context);
+              Hive.box('User').clear();
+              Fluttertoast.showToast(msg: 'Logged out');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const StartScreen()),
+              );
             },
           ),
           ListTile(
-            leading: const Icon(Icons.delete),
-            title: const Text('Delete User'),
+            leading: const Icon(Icons.delete_forever),
+            title: const Text('Delete Account'),
             onTap: () {
-              _deleteUser(context);
+              Hive.box('User').clear();
+              Fluttertoast.showToast(msg: 'Account deleted');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const StartScreen()),
+              );
             },
           ),
         ],
@@ -65,65 +75,54 @@ class Sidebar extends StatelessWidget {
     );
   }
 
-  // Change Password Logic
-  void _changePassword(BuildContext context) {
-    final userDataBox = Hive.box('User');
-    final user = userDataBox.get('user', defaultValue: Userdata('', 0.0, false, false, '', true));
+  void _changePassword(BuildContext context, Userdata? user) {
+    if (user == null) return;
+    final oldCtl = TextEditingController();
+    final newCtl = TextEditingController();
 
-    if (user != null) {
-      // Prompt user to enter new password
-      showDialog(
-        context: context,
-        builder: (context) {
-          TextEditingController passwordController = TextEditingController();
-          return AlertDialog(
-            title: const Text('Change Password'),
-            content: TextField(
-              controller: passwordController,
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Change Password'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: oldCtl,
               obscureText: true,
-              decoration: const InputDecoration(hintText: 'Enter new password'),
+              decoration: const InputDecoration(labelText: 'Old Password'),
             ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  if (passwordController.text.isNotEmpty) {
-                    // Save the new password in Hive
-                    user.password = passwordController.text;
-                    userDataBox.put('user', user);
-                    Fluttertoast.showToast(msg: 'Password changed successfully');
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Text('Change'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  // Logout Logic (Clear user data from Hive)
-  void _logout(BuildContext context) {
-    final userDataBox = Hive.box('User');
-    userDataBox.delete('user'); // Clear user data
-
-    Fluttertoast.showToast(msg: 'Logged out successfully');
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const StartScreen()), // Redirect to start screen
-    );
-  }
-
-  // Delete User (Clear all user data)
-  void _deleteUser(BuildContext context) {
-    final userDataBox = Hive.box('User');
-    userDataBox.delete('user'); // Delete user data from Hive
-
-    Fluttertoast.showToast(msg: 'User deleted successfully');
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const StartScreen()), // Redirect to start screen
+            const SizedBox(height: 12),
+            TextField(
+              controller: newCtl,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'New Password'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () {
+              final oldPass = oldCtl.text.trim();
+              final newPass = newCtl.text.trim();
+              if (oldPass != user.password) {
+                Fluttertoast.showToast(msg: 'Old password incorrect');
+                return;
+              }
+              if (newPass.length < 4) {
+                Fluttertoast.showToast(msg: 'New password must be ≥4 chars');
+                return;
+              }
+              user.password = newPass;
+              Hive.box('User').put('user', user);
+              Fluttertoast.showToast(msg: 'Password changed');
+              Navigator.pop(context);
+            },
+            child: const Text('Change'),
+          ),
+        ],
+      ),
     );
   }
 }
