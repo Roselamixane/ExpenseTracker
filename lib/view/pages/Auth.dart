@@ -1,243 +1,168 @@
-import 'package:app/data/repository/dbRepository.dart' as dbrepository;
-import 'package:app/view/pages/mainScreen.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:app/data/model/UserData.dart';
+import 'package:app/view/pages/mainScreen.dart';
+import 'package:app/view/pages/start-screen.dart';
 
 class Auth extends StatefulWidget {
-  const Auth({super.key});
+  const Auth({Key? key}) : super(key: key);
 
   @override
   State<Auth> createState() => _AuthState();
 }
 
 class _AuthState extends State<Auth> {
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController rePasswordController = TextEditingController();
-  bool _passwordVisible = false;
-  bool _rePasswordVisible = false;
-  bool isLoginMode = true; // Determines whether we're in login or sign-up mode
+  bool isLoginMode = true;
+  final userNameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final rePasswordController = TextEditingController();
+  String? profileImagePath;
 
-  // Function to create a new user
-  void createNewUser() {
-    // Check if password length is at least 6 characters
-    if (passwordController.text.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Password must be at least 6 characters long'))
-      );
+  Future<void> pickProfileImage() async {
+    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (picked != null) setState(() => profileImagePath = picked.path);
+  }
+
+  void toggleMode() {
+    setState(() {
+      isLoginMode = !isLoginMode;
+      userNameController.clear();
+      passwordController.clear();
+      rePasswordController.clear();
+      profileImagePath = null;
+    });
+  }
+
+  Future<void> createNewUser() async {
+    final name = userNameController.text.trim();
+    final pass = passwordController.text.trim();
+    final rePass = rePasswordController.text.trim();
+    if (name.isEmpty || pass.isEmpty) {
+      _showSnack('Username and password required');
+      return;
+    }
+    if (pass.length < 6) {
+      _showSnack('Password must be at least 6 characters');
+      return;
+    }
+    if (pass != rePass) {
+      _showSnack('Passwords do not match');
       return;
     }
 
-    // Ensure passwords match
-    if (passwordController.text != rePasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Passwords do not match'))
-      );
+    final userBox = Hive.box('User');
+    if (userBox.get('user') != null) {
+      _showSnack('An account already exists');
       return;
     }
 
-    if (userNameController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      dbrepository.addUser(
-          userNameController.text,
-          passwordController.text,
-          0.0,
-          false,
-          false,
-          true
-      );
+    final user = Userdata(
+      name,                 // userName
+      0.0,                  // balance
+      false,                // deviceAuth
+      false,                // notifications
+      pass,                 // password
+      true,                 // defaultTheme
+      profileImagePath: profileImagePath,
+    );
+
+    await userBox.put('user', user);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const Main()),  // <-- use Main()
+    );
+  }
+
+  void logInUser() {
+    final name = userNameController.text.trim();
+    final pass = passwordController.text.trim();
+    final userBox = Hive.box('User');
+    final user = userBox.get('user') as Userdata?;
+    if (user == null) {
+      _showSnack('No account found — please sign up');
+      return;
+    }
+    if (user.userName == name && user.password == pass) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Main())
+        context,
+        MaterialPageRoute(builder: (_) => const Main()),  // <-- use Main()
       );
+    } else {
+      _showSnack('Invalid credentials');
     }
   }
 
-  // Function to log in an existing user
-  void logInUser() {
-    var userDataBox = Hive.box('User');
-    var existingUser = userDataBox.values.isEmpty ? null : userDataBox.values.first;
-    if (existingUser != null && existingUser.password == passwordController.text) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Main())
-      );
-    } else {
-      // Show error if login fails
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid credentials, please try again'))
-      );
-    }
+  void _showSnack(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color.fromARGB(225, 149, 229, 241),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  isLoginMode ? "Log In" : "Create New Account",
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: Color.fromARGB(255, 11, 103, 195),
-                    fontWeight: FontWeight.bold,
-                  ),
+      appBar: AppBar(title: Text(isLoginMode ? 'Log In' : 'Sign Up')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            if (!isLoginMode) ...[
+              GestureDetector(
+                onTap: pickProfileImage,
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundImage: profileImagePath != null
+                      ? FileImage(File(profileImagePath!))
+                      : null,
+                  child: profileImagePath == null
+                      ? const Icon(Icons.camera_alt, size: 32)
+                      : null,
                 ),
-                SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Enter Username:",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 11, 103, 195),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextField(
-                        controller: userNameController,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(125, 0, 0, 0),
-                                  width: 2
-                              )
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(125, 0, 0, 0),
-                                  width: 2
-                              )
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Enter Password:",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 11, 103, 195),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextField(
-                        controller: passwordController,
-                        obscureText: !_passwordVisible,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(125, 0, 0, 0),
-                                  width: 2
-                              )
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(125, 0, 0, 0),
-                                  width: 2
-                              )
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                              color: Color.fromARGB(255, 11, 103, 195),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                !isLoginMode
-                    ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Re-Enter Password:",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 11, 103, 195),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextField(
-                        controller: rePasswordController,
-                        obscureText: !_rePasswordVisible,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(125, 0, 0, 0),
-                                  width: 2
-                              )
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(125, 0, 0, 0),
-                                  width: 2
-                              )
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _rePasswordVisible ? Icons.visibility : Icons.visibility_off,
-                              color: Color.fromARGB(255, 11, 103, 195),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _rePasswordVisible = !_rePasswordVisible;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-                    : Container(),
-                SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: isLoginMode ? logInUser : createNewUser,
-                  child: Text(isLoginMode ? "Log In" : "Sign Up"),
-                ),
-                SizedBox(height: 20),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      isLoginMode = !isLoginMode;  // Toggle between login and signup
-                    });
-                  },
-                  child: Text(
-                    isLoginMode ? "Don't have an account? Sign up" : "Already have an account? Log in",
-                    style: TextStyle(color: Color.fromARGB(255, 11, 103, 195)),
-                  ),
-                )
-              ],
+              ),
+              const SizedBox(height: 8),
+              const Text('Tap to upload profile photo'),
+            ],
+            TextField(
+              controller: userNameController,
+              decoration: const InputDecoration(labelText: 'Username'),
             ),
-          ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: passwordController,
+              decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            if (!isLoginMode) ...[
+              const SizedBox(height: 12),
+              TextField(
+                controller: rePasswordController,
+                decoration: const InputDecoration(labelText: 'Re-enter Password'),
+                obscureText: true,
+              ),
+            ],
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: isLoginMode ? logInUser : createNewUser,
+              child: Text(isLoginMode ? 'Log In' : 'Sign Up'),
+            ),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: toggleMode,
+              child: Text(isLoginMode
+                  ? "Don't have an account? Sign up"
+                  : "Already have one? Log in"),
+            ),
+            if (isLoginMode)
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const StartScreen()),
+                  );
+                },
+                child: const Text('Back to Start'),
+              ),
+          ],
         ),
       ),
     );
