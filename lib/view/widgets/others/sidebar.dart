@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:app/data/model/UserData.dart';
-import 'package:app/view/pages/start-screen.dart';
+import 'package:app/view/pages/Auth.dart';
 import 'package:app/view/provider/themeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,7 +14,7 @@ class Sidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final userBox = Hive.box('User');
-    final user = userBox.get('user') as Userdata?;
+    final user = userBox.get('currentUser') as Userdata?;
 
     return Drawer(
       child: Column(
@@ -22,9 +22,9 @@ class Sidebar extends StatelessWidget {
           UserAccountsDrawerHeader(
             accountName: Text(user?.userName ?? 'Guest'),
             accountEmail: Text(
-                user != null
-                    ? '${user.userName.toLowerCase()}@example.com'
-                    : 'guest@example.com'
+              user != null
+                  ? '${user.userName.toLowerCase()}@example.com'
+                  : 'guest@example.com',
             ),
             currentAccountPicture: CircleAvatar(
               backgroundImage: user?.profileImagePath != null
@@ -49,24 +49,31 @@ class Sidebar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () {
-              Hive.box('User').clear();
+            onTap: () async {
+              final box = Hive.box('User');
+              await box.delete('currentUser'); // only log out
               Fluttertoast.showToast(msg: 'Logged out');
-              Navigator.pushReplacement(
+
+              Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (_) => const StartScreen()),
+                MaterialPageRoute(builder: (_) => const Auth()),
+                    (route) => false,
               );
             },
           ),
           ListTile(
             leading: const Icon(Icons.delete_forever),
             title: const Text('Delete Account'),
-            onTap: () {
-              Hive.box('User').clear();
+            onTap: () async {
+              final box = Hive.box('User');
+              await box.delete('user'); // delete account
+              await box.delete('currentUser'); // log out
               Fluttertoast.showToast(msg: 'Account deleted');
-              Navigator.pushReplacement(
+
+              Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (_) => const StartScreen()),
+                MaterialPageRoute(builder: (_) => const Auth()),
+                    (route) => false,
               );
             },
           ),
@@ -101,21 +108,30 @@ class Sidebar extends StatelessWidget {
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               final oldPass = oldCtl.text.trim();
               final newPass = newCtl.text.trim();
+
               if (oldPass != user.password) {
                 Fluttertoast.showToast(msg: 'Old password incorrect');
                 return;
               }
+
               if (newPass.length < 4) {
-                Fluttertoast.showToast(msg: 'New password must be ≥4 chars');
+                Fluttertoast.showToast(
+                    msg: 'New password must be ≥4 characters');
                 return;
               }
+
               user.password = newPass;
-              Hive.box('User').put('user', user);
+              final box = Hive.box('User');
+              box.put('user', user);
+              box.put('currentUser', user);
+
               Fluttertoast.showToast(msg: 'Password changed');
               Navigator.pop(context);
             },
