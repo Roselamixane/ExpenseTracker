@@ -14,23 +14,23 @@ class Userdata {
   double balance;
 
   @HiveField(3)
-  final bool deviceAuth;
+  bool deviceAuth;
 
   @HiveField(4)
-  final bool notifications;
+  bool notifications;
 
   @HiveField(5)
-  final bool defaultTheme;
+  bool defaultTheme;
 
   @HiveField(6)
   String? profileImagePath;
 
   Userdata(
       this.userName,
+      this.password,
       this.balance,
       this.deviceAuth,
       this.notifications,
-      this.password,
       this.defaultTheme, {
         this.profileImagePath,
       });

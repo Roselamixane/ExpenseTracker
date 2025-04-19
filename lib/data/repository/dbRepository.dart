@@ -26,7 +26,7 @@ Userdata getUser() {
 void addUser(String userName, String password, double balance, bool deviceAuth,
     bool notifications, bool defaultTheme) {
   Userdata userdata = new Userdata(
-      userName, balance, deviceAuth, notifications, password, defaultTheme);
+      userName,password, balance, deviceAuth, notifications, defaultTheme);
   userDataBox.add(userdata);
 }
 

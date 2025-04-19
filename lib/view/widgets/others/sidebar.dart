@@ -14,7 +14,11 @@ class Sidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final userBox = Hive.box('User');
-    final user = userBox.get('currentUser') as Userdata?;
+
+    final currentUsername = userBox.get('currentUser') as String?;
+    final user = currentUsername != null
+        ? userBox.get(currentUsername) as Userdata?
+        : null;
 
     return Drawer(
       child: Column(
@@ -27,8 +31,9 @@ class Sidebar extends StatelessWidget {
                   : 'guest@example.com',
             ),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: user?.profileImagePath != null
-                  ? FileImage(File(user!.profileImagePath!))
+              backgroundImage: user?.profileImagePath != null &&
+                  File(user!.profileImagePath!).existsSync()
+                  ? FileImage(File(user.profileImagePath!))
                   : null,
               child: user?.profileImagePath == null
                   ? const Icon(Icons.person, size: 40)
@@ -50,8 +55,7 @@ class Sidebar extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () async {
-              final box = Hive.box('User');
-              await box.delete('currentUser'); // only log out
+              await userBox.delete('currentUser'); // only log out
               Fluttertoast.showToast(msg: 'Logged out');
 
               Navigator.pushAndRemoveUntil(
@@ -65,9 +69,10 @@ class Sidebar extends StatelessWidget {
             leading: const Icon(Icons.delete_forever),
             title: const Text('Delete Account'),
             onTap: () async {
-              final box = Hive.box('User');
-              await box.delete('user'); // delete account
-              await box.delete('currentUser'); // log out
+              if (user != null) {
+                await userBox.delete(user.userName); // delete account
+              }
+              await userBox.delete('currentUser'); // log out
               Fluttertoast.showToast(msg: 'Account deleted');
 
               Navigator.pushAndRemoveUntil(
@@ -109,8 +114,9 @@ class Sidebar extends StatelessWidget {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () {
               final oldPass = oldCtl.text.trim();
@@ -129,8 +135,8 @@ class Sidebar extends StatelessWidget {
 
               user.password = newPass;
               final box = Hive.box('User');
-              box.put('user', user);
-              box.put('currentUser', user);
+              box.put(user.userName, user); // update user
+              box.put('currentUser', user.userName); // keep logged in
 
               Fluttertoast.showToast(msg: 'Password changed');
               Navigator.pop(context);
