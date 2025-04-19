@@ -91,7 +91,7 @@ class _AuthState extends State<Auth> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      'lib/assets/images/splashLogo1.png',
+                      'lib/assets/images/logo.png',
                       height: 100,
                     ),
                     const SizedBox(height: 16),
