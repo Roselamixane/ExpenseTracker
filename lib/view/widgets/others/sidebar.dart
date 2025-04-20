@@ -27,8 +27,8 @@ class Sidebar extends StatelessWidget {
             accountName: Text(user?.userName ?? 'Guest'),
             accountEmail: Text(
               user != null
-                  ? '${user.userName.toLowerCase()}@example.com'
-                  : 'guest@example.com',
+                  ? '${user.userName.toLowerCase()}@gmail.com'
+                  : 'guest@gmail.com',
             ),
             currentAccountPicture: CircleAvatar(
               backgroundImage: user?.profileImagePath != null &&
