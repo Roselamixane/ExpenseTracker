@@ -1,89 +1,131 @@
-// ignore_for_file: prefer_const_constructors
-import 'package:app/data/repository/dbRepository.dart' as dbrepository;
-import 'package:app/view/pages/start-screen.dart';
-import 'package:app/view/provider/summaryProvider.dart';
-import 'package:app/view/provider/transactionProvider.dart';
-import 'package:app/view/widgets/dialogBoxs/confirmationBox.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:app/data/model/UserData.dart';
+import 'package:app/view/pages/Auth.dart';
+import 'package:app/view/provider/themeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Sidebar extends StatelessWidget {
-  const Sidebar({super.key});
-
-  void wipeData(summaryProvider provider, transactionProvider tprovider) {
-    provider.deleteRecords();
-    provider.deleteBudgets();
-    tprovider.deleteRecords();
-  }
-
-  void removeUser(BuildContext context) {
-    dbrepository.removeUser();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => StartScreen()));
-  }
+  final Userdata user;
+  const Sidebar({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<summaryProvider>(context, listen: false);
-    final tprovider = Provider.of<transactionProvider>(context, listen: false);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("Rahul Palanivel"),
-            accountEmail: Text("rahulpalanivel@gmail.com"),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(),
+            accountName: Text(user.userName),
+            accountEmail: Text('${user.userName.toLowerCase()}@gmail.com'),
+            currentAccountPicture: const CircleAvatar(
+              child: Icon(Icons.person),
             ),
-            decoration:
-            BoxDecoration(color: Color.fromARGB(255, 178, 175, 175)),
+          ),
+          SwitchListTile(
+            value: themeProvider.isDarkMode,
+            title: const Text('Dark Mode'),
+            secondary: const Icon(Icons.brightness_6),
+            onChanged: themeProvider.toggleTheme,
           ),
           ListTile(
-            leading: Icon(Icons.cleaning_services),
-            title: Text("Wipe Data"),
+            leading: const Icon(Icons.lock_reset),
+            title: const Text('Change Password'),
+            onTap: () => _changePassword(context, user),
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
             onTap: () async {
-              bool val = await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return confirmBox(
-                        text: "Are you sure you want to wipe all data ?");
-                  });
-              if (val) {
-                wipeData(provider, tprovider);
-              }
+              final userBox = Hive.box('User');
+              await userBox.delete('currentUser');
+              Fluttertoast.showToast(msg: 'Logged out');
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const Auth()),
+                    (route) => false,
+              );
             },
           ),
           ListTile(
-            leading: Icon(Icons.lock),
-            title: Text("Device Authentication"),
-            onTap: () {},
+            leading: const Icon(Icons.delete_forever),
+            title: const Text('Delete Account'),
+            onTap: () async {
+              final userBox = Hive.box('User');
+              await userBox.delete(user.userName);
+              await userBox.delete('currentUser');
+              Fluttertoast.showToast(msg: 'Account deleted');
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const Auth()),
+                    (route) => false,
+              );
+            },
           ),
-          ListTile(
-            leading: Icon(Icons.notification_add),
-            title: Text("Enable Notifications"),
-            onTap: () => {},
+        ],
+      ),
+    );
+  }
+
+  void _changePassword(BuildContext context, Userdata user) {
+    final oldCtl = TextEditingController();
+    final newCtl = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Change Password'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: oldCtl,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Old Password'),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: newCtl,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'New Password'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
           ),
-          ListTile(
-            leading: Icon(Icons.mode_edit),
-            title: Text("Change Theme"),
-            onTap: () => {},
+          TextButton(
+            onPressed: () {
+              final oldPass = oldCtl.text.trim();
+              final newPass = newCtl.text.trim();
+
+              if (oldPass != user.password) {
+                Fluttertoast.showToast(msg: 'Old password incorrect');
+                return;
+              }
+
+              if (newPass.length < 4) {
+                Fluttertoast.showToast(msg: 'New password must be ≥4 characters');
+                return;
+              }
+
+              user.password = newPass;
+              final box = Hive.box('User');
+              box.put(user.userName, user);
+              box.put('currentUser', user.userName);
+
+              Fluttertoast.showToast(msg: 'Password changed');
+              Navigator.pop(context);
+            },
+            child: const Text('Change'),
           ),
-          ListTile(
-              leading: Icon(Icons.person),
-              title: Text("Edit User"),
-              onTap: () async {
-                bool val = await showDialog(
-                    context: context,
-                    builder: (context) {
-                      return confirmBox(
-                          text: "Are you sure you want to remove user ?");
-                    });
-                if (val) {
-                  removeUser(context);
-                }
-              })
         ],
       ),
     );

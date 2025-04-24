@@ -2,7 +2,6 @@ import 'package:app/data/model/Finance.dart';
 import 'package:app/domain/repository.dart' as repository;
 import 'package:app/view/provider/summaryProvider.dart';
 import 'package:app/view/provider/transactionProvider.dart';
-import 'package:app/view/widgets/dialogBoxs/bankStatementRecord.dart';
 import 'package:app/view/widgets/dialogBoxs/budgetRecord.dart';
 import 'package:app/view/widgets/dialogBoxs/cashRecord.dart';
 import 'package:flutter/material.dart';
@@ -36,35 +35,6 @@ class Addbox extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const BankStatement(
-                        selectedTotal: true,
-                        selectedMonth: 0,
-                        selectedYear: "0",
-                      );
-                    },
-                  );
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        const WidgetStatePropertyAll(Colors.lightBlue),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    )),
-                child: const Text(
-                  "Add Bank statement",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ElevatedButton(
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -80,7 +50,7 @@ class Addbox extends StatelessWidget {
                   },
                   style: ButtonStyle(
                       backgroundColor:
-                          const WidgetStatePropertyAll(Colors.lightBlue),
+                      const WidgetStatePropertyAll(Colors.lightBlue),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -104,7 +74,7 @@ class Addbox extends StatelessWidget {
                   },
                   style: ButtonStyle(
                       backgroundColor:
-                          const WidgetStatePropertyAll(Colors.lightBlue),
+                      const WidgetStatePropertyAll(Colors.lightBlue),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -112,27 +82,6 @@ class Addbox extends StatelessWidget {
                       )),
                   child: const Text(
                     "Add new Budget",
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ElevatedButton(
-                  onPressed: () async {
-                    await {
-                      repository.addRecordFromMsg(provider, tprovider),
-                    };
-                  },
-                  style: ButtonStyle(
-                      backgroundColor:
-                          const WidgetStatePropertyAll(Colors.lightBlue),
-                      shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      )),
-                  child: const Text(
-                    "Add Record via sms",
                     style: TextStyle(color: Colors.white),
                   )),
             ),

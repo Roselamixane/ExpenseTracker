@@ -41,7 +41,7 @@ class Pchart extends StatelessWidget {
                   : PieChartData(sections: [
                       PieChartSectionData(
                         value: 100,
-                        color: Colors.white,
+                        color: Colors.grey,
                         showTitle: false,
                         radius: 60,
                       )
@@ -69,7 +69,7 @@ class Pchart extends StatelessWidget {
             height: 30,
             width: 30,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.grey,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(collections.Icon[i]),
