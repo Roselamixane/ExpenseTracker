@@ -1,133 +1,141 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app/data/model/UserData.dart';
-import 'package:app/view/widgets/others/sidebar.dart';
+import 'package:app/data/repository/dbRepository.dart' as dbrepository;
 import 'package:app/view/pages/Budget-tab.dart';
 import 'package:app/view/pages/Summary-tab.dart';
 import 'package:app/view/pages/Transactions-tab.dart';
 import 'package:app/view/pages/home-screen.dart';
-<<<<<<< HEAD
-import '../widgets/dialogBoxs/addBox.dart';
-=======
 import 'package:app/view/widgets/dialogBoxs/addBox.dart';
 import 'package:app/view/widgets/others/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
->>>>>>> da55387 (user data fixes)
 
 class Main extends StatefulWidget {
-  final Userdata currentUser;
-
-  const Main({Key? key, required this.currentUser}) : super(key: key);
+  const Main({super.key});
 
   @override
-  _MainState createState() => _MainState();
+  State<Main> createState() => _MainState();
 }
 
 class _MainState extends State<Main> {
-<<<<<<< HEAD
-  int index = 0;
-
-  final List<Widget> screens = [
-=======
   Userdata? user;
   int index = 0;
 
   final List<Widget> Screen = [
->>>>>>> da55387 (user data fixes)
     const Home(),
     SummaryTab(),
     const TransactionTab(),
-    const BudgetTab(),
+    const BudgetTab()
   ];
-
-  final List<String> titles = [
+  List Titles = [
     "Welcome",
     "Transaction Overview",
     "Transaction Records",
-    "Budgets",
+    "Budgets"
   ];
-
   @override
   Widget build(BuildContext context) {
-    // Get current theme mode (light or dark)
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      drawer: Sidebar(user: widget.currentUser),
-
+      drawer: const Sidebar(),
       appBar: AppBar(
-        backgroundColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
-        shadowColor: isDarkMode ? Colors.grey : const Color.fromARGB(255, 243, 237, 247),
+        backgroundColor: const Color.fromARGB(255, 243, 237, 247),
+        shadowColor: const Color.fromARGB(255, 243, 237, 247),
         elevation: 1,
         scrolledUnderElevation: 1,
-        surfaceTintColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
+        surfaceTintColor: const Color.fromARGB(255, 243, 237, 247),
         toolbarHeight: 80,
         title: Text(
-<<<<<<< HEAD
-          index == 0 ? "Welcome ${widget.currentUser.userName}" : titles[index],
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w800,
-            color: isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 118, 192),
-          ),
-=======
           index == 0 ? "Welcome ${user?.userName ?? 'Guest'}" : Titles[index],
           style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w800,
               color: Color.fromARGB(255, 27, 118, 192)),
->>>>>>> da55387 (user data fixes)
         ),
       ),
-      body: screens[index], // Display the selected screen
-
+      body: Screen[index],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
-            context: context,
-            builder: (context) {
-              return const Addbox();
-            },
-          );
+              context: context,
+              builder: (context) {
+                return Addbox();
+              });
         },
         backgroundColor: const Color.fromARGB(255, 33, 150, 243),
-        child: const Icon(Icons.add, color: Colors.white),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 7.5),
+          padding: const EdgeInsets.only(top: 7.5, bottom: 7.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(Icons.home, 0),
-              _buildNavItem(Icons.bar_chart_outlined, 1),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 0;
+                  });
+                },
+                child: Icon(
+                  Icons.home,
+                  size: 30,
+                  color: index == 0
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 1;
+                  });
+                },
+                child: Icon(
+                  Icons.bar_chart_outlined,
+                  size: 30,
+                  color: index == 1
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
               const SizedBox(width: 10),
-              _buildNavItem(Icons.history_outlined, 2),
-              _buildNavItem(Icons.account_balance_wallet_outlined, 3),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 2;
+                  });
+                },
+                child: Icon(
+                  Icons.history_outlined,
+                  size: 30,
+                  color: index == 2
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 3;
+                  });
+                },
+                child: Icon(
+                  Icons.account_balance_wallet_outlined,
+                  size: 30,
+                  color: index == 3
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  // Navigation item builder for BottomAppBar
-  Widget _buildNavItem(IconData icon, int itemIndex) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          index = itemIndex; // Update the selected screen
-        });
-      },
-      child: Icon(
-        icon,
-        size: 30,
-        color: index == itemIndex
-            ? const Color.fromARGB(255, 33, 150, 243)
-            : Colors.grey,
       ),
     );
   }

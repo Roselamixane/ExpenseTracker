@@ -21,24 +21,6 @@ class SummaryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    // Get current theme for dynamic color changes
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return Consumer<summaryProvider>(builder: (context, provider, child) {
-      selectedTotal
-          ? provider.updateDefault(0, 0)
-          : provider.updateDefault(_selectedIndex, int.parse(provider.yearList[currentYear]));
-
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(1.0),
-              child: Card(
-                color: isDarkMode ? Colors.grey[800] : Colors.white,  // Adjusting card color based on theme
-=======
     return Consumer<summaryProvider>(builder: (context, provider, child) {
       selectedTotal
           ? provider.updateDefault(0, 0)
@@ -103,7 +85,6 @@ class SummaryTab extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(1.0),
               child: Card(
->>>>>>> da55387 (user data fixes)
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -148,24 +129,13 @@ class SummaryTab extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: selectedTotal == true
                                           ? Colors.black
-<<<<<<< HEAD
-                                          : Colors.grey,
-=======
                                           : const Color.fromARGB(
                                           255, 200, 202, 202),
->>>>>>> da55387 (user data fixes)
                                     ),
                                   ),
                                 ),
                                 IconButton(
                                   onPressed: () {
-<<<<<<< HEAD
-                                    if (currentYear < (provider.yearList.length - 1)) {
-                                      currentYear++;
-                                      selectedTotal = false;
-                                      _selectedIndex = 0;
-                                      provider.updateValues(0, int.parse(provider.yearList[currentYear]));
-=======
                                     if (currentYear <
                                         (provider.yearList.length - 1)) {
                                       currentYear++;
@@ -175,30 +145,21 @@ class SummaryTab extends StatelessWidget {
                                           0,
                                           int.parse(
                                               provider.yearList[currentYear]));
->>>>>>> da55387 (user data fixes)
                                     }
                                   },
                                   icon: const Icon(Icons.arrow_back),
                                 ),
                                 Text(
-<<<<<<< HEAD
-                                  provider.yearList.isNotEmpty ? provider.yearList[currentYear] : "",
-=======
                                   provider.yearList.isNotEmpty
                                       ? provider.yearList[currentYear]
                                       : "",
->>>>>>> da55387 (user data fixes)
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     color: selectedTotal == false
                                         ? Colors.black
-<<<<<<< HEAD
-                                        : Colors.grey,
-=======
                                         : const Color.fromARGB(
                                         255, 200, 202, 202),
->>>>>>> da55387 (user data fixes)
                                   ),
                                 ),
                                 IconButton(
@@ -207,14 +168,10 @@ class SummaryTab extends StatelessWidget {
                                       currentYear--;
                                       selectedTotal = false;
                                       _selectedIndex = 0;
-<<<<<<< HEAD
-                                      provider.updateValues(0, int.parse(provider.yearList[currentYear]));
-=======
                                       provider.updateValues(
                                           0,
                                           int.parse(
                                               provider.yearList[currentYear]));
->>>>>>> da55387 (user data fixes)
                                     }
                                   },
                                   icon: const Icon(Icons.arrow_forward),
@@ -235,14 +192,6 @@ class SummaryTab extends StatelessWidget {
                               children: [
                                 for (int i = 0; i < months.length; i++)
                                   TextButton(
-<<<<<<< HEAD
-                                    onPressed: () {
-                                      if (provider.yearList.isNotEmpty) {
-                                        selectedTotal = false;
-                                        _selectedIndex = i;
-                                        provider.updateValues(i, int.parse(provider.yearList[currentYear]));
-                                      }
-=======
                                     onPressed: () => {
                                       if (provider.yearList.isNotEmpty)
                                         {
@@ -253,22 +202,14 @@ class SummaryTab extends StatelessWidget {
                                               int.parse(provider
                                                   .yearList[currentYear]))
                                         },
->>>>>>> da55387 (user data fixes)
                                     },
                                     style: ButtonStyle(
                                       foregroundColor: MaterialStateProperty.all(
                                         selectedTotal == true
-<<<<<<< HEAD
-                                            ? Colors.grey
-                                            : _selectedIndex == i
-                                            ? Colors.black
-                                            : Colors.grey,
-=======
                                             ? const Color.fromARGB(255, 200, 202, 202)
                                             : _selectedIndex == i
                                             ? const Color.fromARGB(255, 0, 0, 0)
                                             : const Color.fromARGB(255, 200, 202, 202),
->>>>>>> da55387 (user data fixes)
                                       ),
                                     ),
                                     child: Text(months[i]),
@@ -283,10 +224,7 @@ class SummaryTab extends StatelessWidget {
                 ),
               ),
             ),
-<<<<<<< HEAD
-=======
             // Expanded body content
->>>>>>> da55387 (user data fixes)
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -295,28 +233,17 @@ class SummaryTab extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "Categories",
-<<<<<<< HEAD
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          color: isDarkMode ? Colors.white : Color.fromARGB(255, 27, 118, 192),
-=======
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
                           color: Color.fromARGB(255, 27, 118, 192),
->>>>>>> da55387 (user data fixes)
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: GridView.count(
-<<<<<<< HEAD
-                        physics: NeverScrollableScrollPhysics(),
-=======
                         physics: const NeverScrollableScrollPhysics(),
->>>>>>> da55387 (user data fixes)
                         shrinkWrap: true,
                         crossAxisCount: 2,
                         childAspectRatio: 2,
@@ -341,17 +268,10 @@ class SummaryTab extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "Categorical Overview",
-<<<<<<< HEAD
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          color: isDarkMode ? Colors.white : Color.fromARGB(255, 27, 118, 192),
-=======
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
                           color: Color.fromARGB(255, 27, 118, 192),
->>>>>>> da55387 (user data fixes)
                         ),
                       ),
                     ),
@@ -363,17 +283,10 @@ class SummaryTab extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "Daily/Monthly Overview",
-<<<<<<< HEAD
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          color: isDarkMode ? Colors.white : Color.fromARGB(255, 27, 118, 192),
-=======
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
                           color: Color.fromARGB(255, 27, 118, 192),
->>>>>>> da55387 (user data fixes)
                         ),
                       ),
                     ),

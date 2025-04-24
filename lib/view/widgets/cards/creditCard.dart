@@ -60,7 +60,7 @@ class creditCard extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          repository.formatAmount((provider.incoming + provider.outgoing)),
+                          repository.formatAmount(provider.user.balance),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 23,
@@ -79,90 +79,6 @@ class creditCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-<<<<<<< HEAD
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleAvatar(
-                              radius: 13,
-                              backgroundColor:
-                              Color.fromARGB(255, 74, 147, 196),
-                              child: Icon(
-                                Icons.arrow_upward,
-                                color: Color.fromARGB(255, 3, 195, 9),
-                                size: 23,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Income',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 85, 89, 89),
-                              ),
-                            )
-                          ],
-                        ),
-                        Text(
-                          repository.formatAmount(provider.incoming),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleAvatar(
-                              radius: 13,
-                              backgroundColor:
-                              Color.fromARGB(255, 74, 147, 196),
-                              child: Icon(
-                                Icons.arrow_downward,
-                                color: Colors.red,
-                                size: 23,
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Expense',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 216, 216, 216),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          repository.formatAmount(provider.outgoing),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-=======
                   _buildInfoCard(
                       title: 'Income',
                       amount: provider.incoming,
@@ -173,7 +89,6 @@ class creditCard extends StatelessWidget {
                       amount: provider.outgoing,
                       icon: Icons.arrow_downward,
                       iconColor: Colors.red),
->>>>>>> da55387 (user data fixes)
                 ],
               ),
             ],
@@ -182,9 +97,6 @@ class creditCard extends StatelessWidget {
       );
     });
   }
-<<<<<<< HEAD
-}
-=======
 
   Widget _buildInfoCard({
     required String title,
@@ -227,4 +139,3 @@ class creditCard extends StatelessWidget {
     );
   }
 }
->>>>>>> da55387 (user data fixes)
