@@ -9,18 +9,15 @@ class creditCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final userProvider = Provider.of<Userdataprovider>(context, listen: true);
-
     void modifyBalance() {
       showDialog(
-          context: context,
-          builder: (context) {
-            return balanceBox();
-          });
+        context: context,
+        builder: (context) => const balanceBox(),
+      );
     }
 
     return Consumer<summaryProvider>(builder: (context, provider, child) {
-      provider.defaultValues(0, 0);
+      // ❌ DO NOT reset values here (this was causing the issue)
       return Container(
         height: 200,
         width: 360,
@@ -41,7 +38,6 @@ class creditCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -50,12 +46,8 @@ class creditCard extends StatelessWidget {
                     Column(
                       children: [
                         const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
-                              Icons.account_balance,
-                              color: Colors.white,
-                            ),
+                            Icon(Icons.account_balance, color: Colors.white),
                             SizedBox(width: 10),
                             Text(
                               'Balance',
@@ -78,103 +70,25 @@ class creditCard extends StatelessWidget {
                       ],
                     ),
                     GestureDetector(
-                      child: const Icon(
-                        Icons.more_horiz,
-                        color: Colors.white,
-                      ),
-                      onTap: () {
-                        modifyBalance();
-                      },
+                      child: const Icon(Icons.more_horiz, color: Colors.white),
+                      onTap: modifyBalance,
                     ),
                   ],
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleAvatar(
-                              radius: 13,
-                              backgroundColor:
-                                  Color.fromARGB(255, 74, 147, 196),
-                              child: Icon(
-                                Icons.arrow_upward,
-                                color: Color.fromARGB(255, 3, 195, 9),
-                                size: 23,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Income',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 216, 216, 216),
-                              ),
-                            )
-                          ],
-                        ),
-                        Text(
-                          repository.formatAmount(provider.incoming),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleAvatar(
-                              radius: 13,
-                              backgroundColor:
-                                  Color.fromARGB(255, 74, 147, 196),
-                              child: Icon(
-                                Icons.arrow_downward,
-                                color: Colors.red,
-                                size: 23,
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Expense',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 216, 216, 216),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          repository.formatAmount(provider.outgoing),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                  _buildInfoCard(
+                      title: 'Income',
+                      amount: provider.incoming,
+                      icon: Icons.arrow_upward,
+                      iconColor: const Color.fromARGB(255, 3, 195, 9)),
+                  _buildInfoCard(
+                      title: 'Expense',
+                      amount: provider.outgoing,
+                      icon: Icons.arrow_downward,
+                      iconColor: Colors.red),
                 ],
               ),
             ],
@@ -182,5 +96,46 @@ class creditCard extends StatelessWidget {
         ),
       );
     });
+  }
+
+  Widget _buildInfoCard({
+    required String title,
+    required double amount,
+    required IconData icon,
+    required Color iconColor,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 13,
+                backgroundColor: const Color.fromARGB(255, 74, 147, 196),
+                child: Icon(icon, color: iconColor, size: 23),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: Color.fromARGB(255, 216, 216, 216),
+                ),
+              ),
+            ],
+          ),
+          Text(
+            repository.formatAmount(amount),
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 17,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

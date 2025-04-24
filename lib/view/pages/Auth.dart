@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:app/data/model/UserData.dart';
@@ -43,8 +42,9 @@ class _AuthState extends State<Auth> {
     }
 
     final user = Userdata(name, pass, 0.0, false, true, false);
-    await userBox.put(name, user);
-    await userBox.put('currentUser', name);
+    await userBox.put(name, user); // Store the new user in the box
+
+    await userBox.put('currentUser', name); // Store the current logged in user
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
   }
@@ -63,7 +63,7 @@ class _AuthState extends State<Auth> {
       return _showSnack('Incorrect password');
     }
 
-    userBox.put('currentUser', name);
+    userBox.put('currentUser', name); // Set current logged in user
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
   }

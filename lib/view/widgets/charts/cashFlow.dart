@@ -9,9 +9,10 @@ class cashFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<summaryProvider>(builder: (context, provider, child) {
-      provider.defaultValues(0, 0);
+      // ❌ Removed: provider.defaultValues(0, 0);
       double incoming = provider.incoming.roundToDouble();
       double outgoing = provider.outgoing.roundToDouble() * -1;
+
       return Container(
         height: 320,
         width: 360,
@@ -36,85 +37,60 @@ class cashFlow extends StatelessWidget {
                 child: PieChart(
                   checkVal(incoming, outgoing)
                       ? PieChartData(
-                          sections: [
-                              PieChartSectionData(
-                                value:
-                                    ((incoming / (incoming + outgoing)) * 100)
-                                        .roundToDouble(),
-                                color: Colors.lightGreen,
-                                radius: 70,
-                                title:
-                                    "${((incoming / (incoming + outgoing)) * 100).roundToDouble()}"
-                                    "%",
-                                titleStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              PieChartSectionData(
-                                value:
-                                    ((outgoing / (incoming + outgoing)) * 100)
-                                        .roundToDouble(),
-                                //color: const Color.fromARGB(255, 235, 40, 26),
-                                color: Colors.red,
-                                radius: 70,
-                                title:
-                                    "${((outgoing / (incoming + outgoing)) * 100).roundToDouble()}"
-                                    "%",
-                                titleStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          sectionsSpace: 0,
-                          centerSpaceRadius: 40,
-                          startDegreeOffset: 90)
-                      : PieChartData(sections: [
-                          PieChartSectionData(
-                            value: 100,
-                            color: Colors.white,
-                            showTitle: false,
-                            radius: 60,
-                          )
-                        ], sectionsSpace: 0, centerSpaceRadius: 60),
+                    sections: [
+                      PieChartSectionData(
+                        value: ((incoming / (incoming + outgoing)) * 100)
+                            .roundToDouble(),
+                        color: Colors.lightGreen,
+                        radius: 70,
+                        title:
+                        "${((incoming / (incoming + outgoing)) * 100).roundToDouble()}%",
+                        titleStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      PieChartSectionData(
+                        value: ((outgoing / (incoming + outgoing)) * 100)
+                            .roundToDouble(),
+                        color: Colors.red,
+                        radius: 70,
+                        title:
+                        "${((outgoing / (incoming + outgoing)) * 100).roundToDouble()}%",
+                        titleStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 40,
+                    startDegreeOffset: 90,
+                  )
+                      : PieChartData(
+                    sections: [
+                      PieChartSectionData(
+                        value: 100,
+                        color: Colors.white,
+                        showTitle: false,
+                        radius: 60,
+                      ),
+                    ],
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 60,
+                  ),
                 ),
               ),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 13,
-                          width: 13,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.lightGreen,
-                          ),
-                        ),
-                        const SizedBox(width: 5),
-                        const Text("Income"),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          height: 13,
-                          width: 13,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.red,
-                          ),
-                        ),
-                        const SizedBox(width: 5),
-                        const Text("Expense"),
-                      ],
-                    )
-                  ],
-                ),
-              )
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildLegendItem(Colors.lightGreen, "Income"),
+                  _buildLegendItem(Colors.red, "Expense"),
+                ],
+              ),
             ],
           ),
         ),
@@ -122,10 +98,24 @@ class cashFlow extends StatelessWidget {
     });
   }
 
+  Widget _buildLegendItem(Color color, String label) {
+    return Row(
+      children: [
+        Container(
+          height: 13,
+          width: 13,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: color,
+          ),
+        ),
+        const SizedBox(width: 5),
+        Text(label),
+      ],
+    );
+  }
+
   bool checkVal(double a, double b) {
-    if (a == 0 && b == 0) {
-      return false;
-    }
-    return true;
+    return !(a == 0 && b == 0);
   }
 }
