@@ -48,9 +48,9 @@ class summaryProvider extends ChangeNotifier {
       records = dbrepository
           .getRecords()
           .where((element) =>
-              repository.formatDate(element.date)[1].substring(0, 3) ==
-                  months[month] &&
-              repository.formatDate(element.date)[2] == year.toString())
+      repository.formatDate(element.date)[1].substring(0, 3) ==
+          months[month] &&
+          repository.formatDate(element.date)[2] == year.toString())
           .toList();
 
       values = repository.getAmount(records);
@@ -58,7 +58,7 @@ class summaryProvider extends ChangeNotifier {
       records = dbrepository
           .getRecords()
           .where((element) =>
-              repository.formatDate(element.date)[2] == year.toString())
+      repository.formatDate(element.date)[2] == year.toString())
           .toList();
 
       values = repository.getAmount(records);

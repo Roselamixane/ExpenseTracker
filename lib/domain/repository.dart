@@ -70,7 +70,7 @@ List<double> getAmount(List<Finance> Records) {
 double getAmountByCategory(List<Finance> Records, String Catergory) {
   double amount = 0;
   List<Finance> CategoryRecords =
-      Records.where((element) => element.trancCategory == Catergory).toList();
+  Records.where((element) => element.trancCategory == Catergory).toList();
   for (int i = 0; i < CategoryRecords.length; i++) {
     amount = amount + CategoryRecords[i].amount;
   }
@@ -93,8 +93,8 @@ double getamtforBudget(DateTime date, String category, String duration) {
         dbrepository
             .getRecords()
             .where((element) =>
-                formatDate(element.date)[1] == formatDate(date)[1] &&
-                formatDate(element.date)[2] == formatDate(date)[2])
+        formatDate(element.date)[1] == formatDate(date)[1] &&
+            formatDate(element.date)[2] == formatDate(date)[2])
             .toList(),
         category);
   }
@@ -242,7 +242,7 @@ Future addRecordFromMsg(
           String trancCategory = findCategory(desc);
 
           var finance =
-              Finance(" ", " ", date, desc, "Expense", trancCategory, amt);
+          Finance(" ", " ", date, desc, "Expense", trancCategory, amt);
 
           if (!checkIfExist(finance)) {
             dbrepository.addRecord(finance);
@@ -268,7 +268,7 @@ Future addRecordFromMsg(
           String trancCategory = findCategory(desc);
 
           var finance =
-              Finance(" ", " ", date, desc, "Expense", trancCategory, amt);
+          Finance(" ", " ", date, desc, "Expense", trancCategory, amt);
 
           if (!checkIfExist(finance)) {
             dbrepository.addRecord(finance);
@@ -286,12 +286,12 @@ Future addRecordFromMsg(
 
           double amount = double.parse(ls[1]) * -1;
           String desc =
-              ls.sublist(10).toString().replaceAll("[", "").replaceAll("]", "");
+          ls.sublist(10).toString().replaceAll("[", "").replaceAll("]", "");
 
           String trancCategory = findCategory(desc);
 
           var finance =
-              Finance(" ", " ", date, desc, "Income", trancCategory, amount);
+          Finance(" ", " ", date, desc, "Income", trancCategory, amount);
           if (!checkIfExist(finance)) {
             dbrepository.addRecord(finance);
           }
@@ -315,7 +315,7 @@ Future addRecordFromMsg(
           String trancCategory = findCategory(desc);
 
           var finance =
-              Finance(" ", " ", date, desc, "Expense", trancCategory, amt);
+          Finance(" ", " ", date, desc, "Expense", trancCategory, amt);
 
           if (!checkIfExist(finance)) {
             dbrepository.addRecord(finance);
@@ -336,7 +336,7 @@ Future addRecordFromMsg(
           String trancCategory = findCategory(desc);
 
           var finance =
-              Finance(" ", " ", date, desc, "Income", trancCategory, amount);
+          Finance(" ", " ", date, desc, "Income", trancCategory, amount);
           if (!checkIfExist(finance)) {
             dbrepository.addRecord(finance);
           }

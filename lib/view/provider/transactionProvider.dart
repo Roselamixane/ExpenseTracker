@@ -19,15 +19,15 @@ class transactionProvider extends ChangeNotifier {
       transactionRecords = dbrepository
           .getRecords()
           .where((element) =>
-              repository.formatDate(element.date)[1].substring(0, 3) ==
-                  months[month] &&
-              repository.formatDate(element.date)[2] == year.toString())
+      repository.formatDate(element.date)[1].substring(0, 3) ==
+          months[month] &&
+          repository.formatDate(element.date)[2] == year.toString())
           .toList();
     } else {
       transactionRecords = dbrepository
           .getRecords()
           .where((element) =>
-              repository.formatDate(element.date)[2] == year.toString())
+      repository.formatDate(element.date)[2] == year.toString())
           .toList();
     }
     yearList = repository.getYearList(dbrepository.getRecords());
@@ -40,15 +40,15 @@ class transactionProvider extends ChangeNotifier {
       transactionRecords = dbrepository
           .getRecords()
           .where((element) =>
-              repository.formatDate(element.date)[1].substring(0, 3) ==
-                  months[month] &&
-              repository.formatDate(element.date)[2] == year.toString())
+      repository.formatDate(element.date)[1].substring(0, 3) ==
+          months[month] &&
+          repository.formatDate(element.date)[2] == year.toString())
           .toList();
     } else {
       transactionRecords = dbrepository
           .getRecords()
           .where((element) =>
-              repository.formatDate(element.date)[2] == year.toString())
+      repository.formatDate(element.date)[2] == year.toString())
           .toList();
     }
 

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class DropDownBox extends StatefulWidget {
   const DropDownBox(
       {super.key,
-      required this.items,
-      required this.defaultItem,
-      required this.updatedValue});
+        required this.items,
+        required this.defaultItem,
+        required this.updatedValue});
   final List<String> items;
   final String defaultItem;
   final Function(String) updatedValue;
@@ -25,7 +25,7 @@ class _DropDownBoxState extends State<DropDownBox> {
         width: 150,
         decoration: BoxDecoration(
           border:
-              Border.all(color: const Color.fromARGB(125, 0, 0, 0), width: 2),
+          Border.all(color: const Color.fromARGB(125, 0, 0, 0), width: 2),
           borderRadius: BorderRadius.circular(15),
         ),
         child: DropdownButton(

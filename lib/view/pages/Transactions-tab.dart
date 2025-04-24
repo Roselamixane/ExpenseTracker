@@ -26,7 +26,7 @@ class TransactionTab extends StatelessWidget {
         selectedTotal
             ? provider.defaultValues(0, 0)
             : provider.defaultValues(
-                selectedIndex, int.parse(provider.yearList[currentYear]));
+            selectedIndex, int.parse(provider.yearList[currentYear]));
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +56,7 @@ class TransactionTab extends StatelessWidget {
                                         color: selectedTotal == true
                                             ? Colors.black
                                             : const Color.fromARGB(
-                                                255, 200, 202, 202)))),
+                                            255, 200, 202, 202)))),
                             IconButton(
                                 onPressed: () {
                                   if (currentYear <
@@ -82,7 +82,7 @@ class TransactionTab extends StatelessWidget {
                                     color: selectedTotal == false
                                         ? Colors.black
                                         : const Color.fromARGB(
-                                            255, 200, 202, 202))),
+                                        255, 200, 202, 202))),
                             IconButton(
                                 onPressed: () {
                                   if (currentYear > 0) {
@@ -129,11 +129,11 @@ class TransactionTab extends StatelessWidget {
                                   foregroundColor: WidgetStateProperty.all(
                                     selectedTotal == true
                                         ? const Color.fromARGB(
-                                            255, 200, 202, 202)
+                                        255, 200, 202, 202)
                                         : selectedIndex == i
-                                            ? const Color.fromARGB(255, 0, 0, 0)
-                                            : const Color.fromARGB(
-                                                255, 200, 202, 202),
+                                        ? const Color.fromARGB(255, 0, 0, 0)
+                                        : const Color.fromARGB(
+                                        255, 200, 202, 202),
                                   ),
                                 ),
                                 child: Text(months[i]),
@@ -148,97 +148,97 @@ class TransactionTab extends StatelessWidget {
 
               Expanded(
                   child: ListView.builder(
-                itemCount: provider.transactionRecords.length,
-                itemBuilder: (context, index) {
-                  if (provider.transactionRecords.isNotEmpty) {
-                    final rowData = provider.transactionRecords[index];
-                    List<String> datemonthyear =
+                    itemCount: provider.transactionRecords.length,
+                    itemBuilder: (context, index) {
+                      if (provider.transactionRecords.isNotEmpty) {
+                        final rowData = provider.transactionRecords[index];
+                        List<String> datemonthyear =
                         repository.formatDate(rowData.date);
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-                      child: Card(
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'lib/assets/images/citibank.png',
-                                height: 30,
-                                width: 30,
-                              ),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return CashRecord(
-                                            data: rowData,
-                                            selectedTotal: selectedTotal,
-                                            selectedYear:
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                          child: Card(
+                            elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'lib/assets/images/citibank.png',
+                                    height: 30,
+                                    width: 30,
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return CashRecord(
+                                                data: rowData,
+                                                selectedTotal: selectedTotal,
+                                                selectedYear:
                                                 provider.yearList[currentYear],
-                                            selectedMonth: selectedIndex,
-                                          );
-                                        });
-                                  },
-                                  child: ListTile(
-                                    leading: Column(
-                                      children: [
-                                        Text((datemonthyear[0]),
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black)),
-                                        Text(
-                                            datemonthyear[1].substring(0, 3) +
-                                                " " +
-                                                datemonthyear[2]
-                                                    .substring(2, 4),
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.normal,
-                                                color: Colors.black))
-                                      ],
-                                    ),
-                                    title: Text((rowData.desc.toString()),
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black)),
-                                    trailing: Column(
-                                      children: [
-                                        Icon(
-                                          repository.iconForCategory(
-                                              rowData.trancCategory),
-                                          size: 30,
+                                                selectedMonth: selectedIndex,
+                                              );
+                                            });
+                                      },
+                                      child: ListTile(
+                                        leading: Column(
+                                          children: [
+                                            Text((datemonthyear[0]),
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black)),
+                                            Text(
+                                                datemonthyear[1].substring(0, 3) +
+                                                    " " +
+                                                    datemonthyear[2]
+                                                        .substring(2, 4),
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.normal,
+                                                    color: Colors.black))
+                                          ],
                                         ),
-                                        Text(
-                                            (repository
-                                                .formatAmount(rowData.amount)),
+                                        title: Text((rowData.desc.toString()),
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: rowData.amount >= 0
-                                                    ? Colors.green
-                                                    : Colors.red))
-                                      ],
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.black)),
+                                        trailing: Column(
+                                          children: [
+                                            Icon(
+                                              repository.iconForCategory(
+                                                  rowData.trancCategory),
+                                              size: 30,
+                                            ),
+                                            Text(
+                                                (repository
+                                                    .formatAmount(rowData.amount)),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: rowData.amount >= 0
+                                                        ? Colors.green
+                                                        : Colors.red))
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              )),
+                        );
+                      }
+                    },
+                  )),
               // Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               //   ElevatedButton(
               //     child: Text("Add Bank Statement"),

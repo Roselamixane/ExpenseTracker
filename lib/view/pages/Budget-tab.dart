@@ -68,8 +68,8 @@ class BudgetTab extends StatelessWidget {
                                             .toStringAsFixed(2),
                                         style: TextStyle(
                                             color: rowData.Budget_amount -
-                                                        budgetamt <
-                                                    0
+                                                budgetamt <
+                                                0
                                                 ? Colors.red
                                                 : Colors.lightGreen,
                                             fontSize: 15),
@@ -82,20 +82,20 @@ class BudgetTab extends StatelessWidget {
                                     lineHeight: 20,
                                     percent: budgetamt > 0
                                         ? (budgetamt / rowData.Budget_amount) <
-                                                1
-                                            ? (budgetamt /
-                                                rowData.Budget_amount)
-                                            : 1
+                                        1
+                                        ? (budgetamt /
+                                        rowData.Budget_amount)
+                                        : 1
                                         : 0,
                                     progressColor:
-                                        (budgetamt / rowData.Budget_amount) < 1
-                                            ? Colors.lightGreen
-                                            : Colors.red,
+                                    (budgetamt / rowData.Budget_amount) < 1
+                                        ? Colors.lightGreen
+                                        : Colors.red,
                                     barRadius: Radius.circular(20),
                                     center: Text((budgetamt /
-                                                rowData.Budget_amount *
-                                                100)
-                                            .toStringAsFixed(0) +
+                                        rowData.Budget_amount *
+                                        100)
+                                        .toStringAsFixed(0) +
                                         "%"),
                                   ),
                                 )
