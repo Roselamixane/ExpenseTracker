@@ -5,7 +5,14 @@ import 'package:app/view/pages/Budget-tab.dart';
 import 'package:app/view/pages/Summary-tab.dart';
 import 'package:app/view/pages/Transactions-tab.dart';
 import 'package:app/view/pages/home-screen.dart';
+<<<<<<< HEAD
 import '../widgets/dialogBoxs/addBox.dart';
+=======
+import 'package:app/view/widgets/dialogBoxs/addBox.dart';
+import 'package:app/view/widgets/others/sidebar.dart';
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+>>>>>>> da55387 (user data fixes)
 
 class Main extends StatefulWidget {
   final Userdata currentUser;
@@ -17,9 +24,16 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
+<<<<<<< HEAD
   int index = 0;
 
   final List<Widget> screens = [
+=======
+  Userdata? user;
+  int index = 0;
+
+  final List<Widget> Screen = [
+>>>>>>> da55387 (user data fixes)
     const Home(),
     SummaryTab(),
     const TransactionTab(),
@@ -49,12 +63,20 @@ class _MainState extends State<Main> {
         surfaceTintColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
         toolbarHeight: 80,
         title: Text(
+<<<<<<< HEAD
           index == 0 ? "Welcome ${widget.currentUser.userName}" : titles[index],
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w800,
             color: isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 118, 192),
           ),
+=======
+          index == 0 ? "Welcome ${user?.userName ?? 'Guest'}" : Titles[index],
+          style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w800,
+              color: Color.fromARGB(255, 27, 118, 192)),
+>>>>>>> da55387 (user data fixes)
         ),
       ),
       body: screens[index], // Display the selected screen

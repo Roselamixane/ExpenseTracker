@@ -7,17 +7,21 @@ import 'package:app/view/widgets/charts/pieChart.dart';
 import 'package:app/view/widgets/others/TransactionBox.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:app/data/model/UserData.dart';
+
+import '../../data/model/Finance.dart';
 
 class SummaryTab extends StatelessWidget {
   SummaryTab({super.key});
   int _selectedIndex = 0;
   bool selectedTotal = true;
-
   List<String> months = collections.months;
   int currentYear = 0;
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     // Get current theme for dynamic color changes
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
@@ -34,6 +38,72 @@ class SummaryTab extends StatelessWidget {
               padding: const EdgeInsets.all(1.0),
               child: Card(
                 color: isDarkMode ? Colors.grey[800] : Colors.white,  // Adjusting card color based on theme
+=======
+    return Consumer<summaryProvider>(builder: (context, provider, child) {
+      selectedTotal
+          ? provider.updateDefault(0, 0)
+          : provider.updateDefault(
+          _selectedIndex, int.parse(provider.yearList[currentYear]));
+      final userBox = Hive.box('User');
+      final currentUsername = userBox.get('currentUser') as String?;
+      final user = currentUsername != null ? userBox.get(currentUsername) as Userdata? : null;
+      final financeBox = Hive.box<Finance>('finance'); // Finance records box
+
+      double currentBalance = 0.0;
+
+      // Recalculate balance based on user's finance records
+      if (currentUsername != null) {
+        final userFinanceRecords = financeBox.values
+            .where((record) => record.user == currentUsername)
+            .toList();
+
+        for (var record in userFinanceRecords) {
+          if (record.trancType == 'income') {
+            currentBalance += record.amount;
+          } else if (record.trancType == 'expense') {
+            currentBalance -= record.amount;
+          }
+        }
+
+        // Update the balance for the current user
+        userBox.put(currentUsername, currentBalance);
+      }
+
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // User Info Section
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              color: const Color.fromARGB(255, 243, 237, 247),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hello, ${user?.userName ?? 'Guest'}',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Balance: \$${currentBalance.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Card for Transaction Overview
+            Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: Card(
+>>>>>>> da55387 (user data fixes)
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -78,29 +148,57 @@ class SummaryTab extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: selectedTotal == true
                                           ? Colors.black
+<<<<<<< HEAD
                                           : Colors.grey,
+=======
+                                          : const Color.fromARGB(
+                                          255, 200, 202, 202),
+>>>>>>> da55387 (user data fixes)
                                     ),
                                   ),
                                 ),
                                 IconButton(
                                   onPressed: () {
+<<<<<<< HEAD
                                     if (currentYear < (provider.yearList.length - 1)) {
                                       currentYear++;
                                       selectedTotal = false;
                                       _selectedIndex = 0;
                                       provider.updateValues(0, int.parse(provider.yearList[currentYear]));
+=======
+                                    if (currentYear <
+                                        (provider.yearList.length - 1)) {
+                                      currentYear++;
+                                      selectedTotal = false;
+                                      _selectedIndex = 0;
+                                      provider.updateValues(
+                                          0,
+                                          int.parse(
+                                              provider.yearList[currentYear]));
+>>>>>>> da55387 (user data fixes)
                                     }
                                   },
                                   icon: const Icon(Icons.arrow_back),
                                 ),
                                 Text(
+<<<<<<< HEAD
                                   provider.yearList.isNotEmpty ? provider.yearList[currentYear] : "",
+=======
+                                  provider.yearList.isNotEmpty
+                                      ? provider.yearList[currentYear]
+                                      : "",
+>>>>>>> da55387 (user data fixes)
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     color: selectedTotal == false
                                         ? Colors.black
+<<<<<<< HEAD
                                         : Colors.grey,
+=======
+                                        : const Color.fromARGB(
+                                        255, 200, 202, 202),
+>>>>>>> da55387 (user data fixes)
                                   ),
                                 ),
                                 IconButton(
@@ -109,7 +207,14 @@ class SummaryTab extends StatelessWidget {
                                       currentYear--;
                                       selectedTotal = false;
                                       _selectedIndex = 0;
+<<<<<<< HEAD
                                       provider.updateValues(0, int.parse(provider.yearList[currentYear]));
+=======
+                                      provider.updateValues(
+                                          0,
+                                          int.parse(
+                                              provider.yearList[currentYear]));
+>>>>>>> da55387 (user data fixes)
                                     }
                                   },
                                   icon: const Icon(Icons.arrow_forward),
@@ -130,20 +235,40 @@ class SummaryTab extends StatelessWidget {
                               children: [
                                 for (int i = 0; i < months.length; i++)
                                   TextButton(
+<<<<<<< HEAD
                                     onPressed: () {
                                       if (provider.yearList.isNotEmpty) {
                                         selectedTotal = false;
                                         _selectedIndex = i;
                                         provider.updateValues(i, int.parse(provider.yearList[currentYear]));
                                       }
+=======
+                                    onPressed: () => {
+                                      if (provider.yearList.isNotEmpty)
+                                        {
+                                          selectedTotal = false,
+                                          _selectedIndex = i,
+                                          provider.updateValues(
+                                              i,
+                                              int.parse(provider
+                                                  .yearList[currentYear]))
+                                        },
+>>>>>>> da55387 (user data fixes)
                                     },
                                     style: ButtonStyle(
                                       foregroundColor: MaterialStateProperty.all(
                                         selectedTotal == true
+<<<<<<< HEAD
                                             ? Colors.grey
                                             : _selectedIndex == i
                                             ? Colors.black
                                             : Colors.grey,
+=======
+                                            ? const Color.fromARGB(255, 200, 202, 202)
+                                            : _selectedIndex == i
+                                            ? const Color.fromARGB(255, 0, 0, 0)
+                                            : const Color.fromARGB(255, 200, 202, 202),
+>>>>>>> da55387 (user data fixes)
                                       ),
                                     ),
                                     child: Text(months[i]),
@@ -158,6 +283,10 @@ class SummaryTab extends StatelessWidget {
                 ),
               ),
             ),
+<<<<<<< HEAD
+=======
+            // Expanded body content
+>>>>>>> da55387 (user data fixes)
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -166,17 +295,28 @@ class SummaryTab extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "Categories",
+<<<<<<< HEAD
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
                           color: isDarkMode ? Colors.white : Color.fromARGB(255, 27, 118, 192),
+=======
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          color: Color.fromARGB(255, 27, 118, 192),
+>>>>>>> da55387 (user data fixes)
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: GridView.count(
+<<<<<<< HEAD
                         physics: NeverScrollableScrollPhysics(),
+=======
+                        physics: const NeverScrollableScrollPhysics(),
+>>>>>>> da55387 (user data fixes)
                         shrinkWrap: true,
                         crossAxisCount: 2,
                         childAspectRatio: 2,
@@ -201,10 +341,17 @@ class SummaryTab extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "Categorical Overview",
+<<<<<<< HEAD
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
                           color: isDarkMode ? Colors.white : Color.fromARGB(255, 27, 118, 192),
+=======
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          color: Color.fromARGB(255, 27, 118, 192),
+>>>>>>> da55387 (user data fixes)
                         ),
                       ),
                     ),
@@ -216,10 +363,17 @@ class SummaryTab extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
                         "Daily/Monthly Overview",
+<<<<<<< HEAD
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
                           color: isDarkMode ? Colors.white : Color.fromARGB(255, 27, 118, 192),
+=======
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          color: Color.fromARGB(255, 27, 118, 192),
+>>>>>>> da55387 (user data fixes)
                         ),
                       ),
                     ),
