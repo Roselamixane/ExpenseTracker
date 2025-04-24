@@ -60,7 +60,7 @@ class creditCard extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          repository.formatAmount(provider.user.balance),
+                          repository.formatAmount(provider.user?.balance ?? 0.0),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 23,

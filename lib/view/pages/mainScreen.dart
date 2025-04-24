@@ -9,7 +9,6 @@ import 'package:app/view/pages/home-screen.dart';
 import 'package:app/view/widgets/dialogBoxs/addBox.dart';
 import 'package:app/view/widgets/others/sidebar.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 class Main extends StatefulWidget {
   const Main({super.key});
@@ -19,10 +18,9 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  Userdata? user;
+  Userdata user = dbrepository.getUser();
   int index = 0;
-
-  final List<Widget> Screen = [
+  List Screen = [
     const Home(),
     SummaryTab(),
     const TransactionTab(),
@@ -46,7 +44,7 @@ class _MainState extends State<Main> {
         surfaceTintColor: const Color.fromARGB(255, 243, 237, 247),
         toolbarHeight: 80,
         title: Text(
-          index == 0 ? "Welcome ${user?.userName ?? 'Guest'}" : Titles[index],
+          index == 0 ? "Welcome ${user.userName}" : Titles[index],
           style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w800,

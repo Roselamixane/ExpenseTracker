@@ -18,19 +18,18 @@ class UserdataAdapter extends TypeAdapter<Userdata> {
     };
     return Userdata(
       fields[0] as String,
-      fields[1] as String,
       fields[2] as double,
       fields[3] as bool,
       fields[4] as bool,
+      fields[1] as String,
       fields[5] as bool,
-      profileImagePath: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Userdata obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.userName)
       ..writeByte(1)
@@ -42,9 +41,7 @@ class UserdataAdapter extends TypeAdapter<Userdata> {
       ..writeByte(4)
       ..write(obj.notifications)
       ..writeByte(5)
-      ..write(obj.defaultTheme)
-      ..writeByte(6)
-      ..write(obj.profileImagePath);
+      ..write(obj.defaultTheme);
   }
 
   @override

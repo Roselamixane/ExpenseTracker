@@ -23,19 +23,10 @@ Userdata getUser() {
   return userdata;
 }
 
-// New function to get the user's balance
-double getUserBalance() {
-  if (userExist()) {
-    Userdata user = getUser();
-    return user.balance;
-  }
-  return 0.0;
-}
-
 void addUser(String userName, String password, double balance, bool deviceAuth,
     bool notifications, bool defaultTheme) {
   Userdata userdata = new Userdata(
-      userName, password, balance, deviceAuth, notifications, defaultTheme);
+      userName, balance, deviceAuth, notifications, password, defaultTheme);
   userDataBox.add(userdata);
 }
 
