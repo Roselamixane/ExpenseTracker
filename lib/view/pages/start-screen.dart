@@ -22,7 +22,7 @@ class StartScreen extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
-                  "Wealthify",
+                  "Expense Tracker",
                   style: TextStyle(
                       color: Color.fromARGB(255, 11, 103, 195),
                       fontWeight: FontWeight.bold,
