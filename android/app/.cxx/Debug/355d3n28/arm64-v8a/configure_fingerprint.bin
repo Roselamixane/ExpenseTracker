@@ -12,6 +12,7 @@ A
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	‡Œõûè2 ¿äçã2
 
 }C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build.json	‡Œõûè2ä Éäçã2ˆ
@@ -108,28 +109,32 @@ GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	®ÂÌÇ
 =======
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	–é³Ùæ2 ¿äçã2
 >>>>>>> 484d51e (name changes)
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ùªœ×è2 ¿äçã2
+>>>>>>> a93234c (added extra logics)
 
-}C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build.json	—é³Ùæ2ä Éäçã2ˆ
+}C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build.json	ùªœ×è2ä Éäçã2ˆ
 …
-‚C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build_mini.json	˜é³Ùæ2½ Øäçã2s
+‚C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\android_gradle_build_mini.json	ùªœ×è2½ Øäçã2s
 q
-oC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build.ninja	˜é³Ùæ2ÛÖ Ğãçã2w
+oC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build.ninja	ùªœ×è2ÛÖ Ğãçã2w
 u
-sC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build.ninja.txt	˜é³Ùæ2|
+sC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build.ninja.txt	ùªœ×è2|
 z
-xC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build_file_index.txt	˜é³Ùæ2G ßäçã2}
+xC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\build_file_index.txt	ùªœ×è2G ßäçã2}
 {
-yC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\compile_commands.json	˜é³Ùæ2
+yC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\compile_commands.json	úªœ×è2
 
-}C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\compile_commands.json.bin	˜é³Ùæ2	‰
+}C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\compile_commands.json.bin	úªœ×è2	‰
 †
-ƒC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\metadata_generation_command.txt	˜é³Ùæ2
+ƒC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\metadata_generation_command.txt	úªœ×è2
 	 Ûäçã2z
 x
-vC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\prefab_config.json	˜é³Ùæ2( Üäçã2
+vC:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\prefab_config.json	úªœ×è2( Üäçã2
 }
-{C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\symbol_folder_index.txt	˜é³Ùæ2r İäçã2K
+{C:\Users\Lenovo\Desktop\Final Year Project\ExpenseTracker\android\app\.cxx\Debug\355d3n28\arm64-v8a\symbol_folder_index.txt	úªœ×è2r İäçã2K
 I
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -144,3 +149,6 @@ GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	Ÿ¨Ì
 =======
 GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	˜é³Ùæ2§ ±üĞŒß2
 >>>>>>> 484d51e (name changes)
+=======
+GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txt	úªœ×è2§ ±üĞŒß2
+>>>>>>> a93234c (added extra logics)

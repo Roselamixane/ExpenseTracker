@@ -152,9 +152,7 @@ class summaryProvider extends ChangeNotifier {
   void updateBalance() {
     double income = incoming;
     double expense = outgoing;
-
-    user.balance = income - expense;
-    updateUser(user.balance);
-    notifyListeners();
+    double bal = user.balance;
+    user.balance = income;
   }
 }

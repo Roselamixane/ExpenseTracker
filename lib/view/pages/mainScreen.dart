@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app/data/model/UserData.dart';
 import 'package:app/data/repository/dbRepository.dart' as dbrepository;
 import 'package:app/view/pages/Budget-tab.dart';
@@ -30,26 +32,23 @@ class _MainState extends State<Main> {
     "Transaction Records",
     "Budgets"
   ];
-
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark; // Get current theme mode
-
     return Scaffold(
       drawer: Sidebar(user: user),
       appBar: AppBar(
-        backgroundColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
-        shadowColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
+        backgroundColor: const Color.fromARGB(255, 243, 237, 247),
+        shadowColor: const Color.fromARGB(255, 243, 237, 247),
         elevation: 1,
         scrolledUnderElevation: 1,
-        surfaceTintColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
+        surfaceTintColor: const Color.fromARGB(255, 243, 237, 247),
         toolbarHeight: 80,
         title: Text(
           index == 0 ? "Welcome ${user.userName}" : Titles[index],
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w800,
-              color: isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 118, 192)),
+              color: Color.fromARGB(255, 27, 118, 192)),
         ),
       ),
       body: Screen[index],
