@@ -1,45 +1,41 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app/data/model/UserData.dart';
-import 'package:app/view/widgets/others/sidebar.dart';
+import 'package:app/data/repository/dbRepository.dart' as dbrepository;
 import 'package:app/view/pages/Budget-tab.dart';
 import 'package:app/view/pages/Summary-tab.dart';
 import 'package:app/view/pages/Transactions-tab.dart';
 import 'package:app/view/pages/home-screen.dart';
-
-import '../widgets/dialogBoxs/addBox.dart';
+import 'package:app/view/widgets/dialogBoxs/addBox.dart';
+import 'package:app/view/widgets/others/sidebar.dart';
+import 'package:flutter/material.dart';
 
 class Main extends StatefulWidget {
-  final Userdata currentUser; // Declare currentUser to accept data
-
-  const Main({Key? key, required this.currentUser}) : super(key: key); // Constructor to accept currentUser
+  const Main({super.key});
 
   @override
-  _MainState createState() => _MainState();
+  State<Main> createState() => _MainState();
 }
 
 class _MainState extends State<Main> {
+  Userdata user = dbrepository.getUser();
   int index = 0;
-
-  final List<Widget> screens = [
+  List Screen = [
     const Home(),
     SummaryTab(),
     const TransactionTab(),
-    const BudgetTab(),
+    const BudgetTab()
   ];
-
-  final List<String> titles = [
+  List Titles = [
     "Welcome",
     "Transaction Overview",
     "Transaction Records",
-    "Budgets",
+    "Budgets"
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Drawer with sidebar, passing currentUser for dynamic info
-      drawer: Sidebar(user: widget.currentUser),
-
+      drawer: Sidebar(user: user),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 243, 237, 247),
         shadowColor: const Color.fromARGB(255, 243, 237, 247),
@@ -48,65 +44,96 @@ class _MainState extends State<Main> {
         surfaceTintColor: const Color.fromARGB(255, 243, 237, 247),
         toolbarHeight: 80,
         title: Text(
-          index == 0 ? "Welcome ${widget.currentUser.userName}" : titles[index], // Using currentUser here
+          index == 0 ? "Welcome ${user.userName}" : Titles[index],
           style: const TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w800,
-            color: Color.fromARGB(255, 27, 118, 192),
-          ),
+              fontSize: 25,
+              fontWeight: FontWeight.w800,
+              color: Color.fromARGB(255, 27, 118, 192)),
         ),
       ),
-      body: screens[index], // Display the selected screen
-
-      // Floating Action Button
+      body: Screen[index],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
-            context: context,
-            builder: (context) {
-              return const Addbox(); // Example of an Add box widget
-            },
-          );
+              context: context,
+              builder: (context) {
+                return Addbox();
+              });
         },
         backgroundColor: const Color.fromARGB(255, 33, 150, 243),
-        child: const Icon(Icons.add, color: Colors.white),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      // Bottom Navigation Bar
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 7.5),
+          padding: const EdgeInsets.only(top: 7.5, bottom: 7.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildNavItem(Icons.home, 0),
-              _buildNavItem(Icons.bar_chart_outlined, 1),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 0;
+                  });
+                },
+                child: Icon(
+                  Icons.home,
+                  size: 30,
+                  color: index == 0
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 1;
+                  });
+                },
+                child: Icon(
+                  Icons.bar_chart_outlined,
+                  size: 30,
+                  color: index == 1
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
               const SizedBox(width: 10),
-              _buildNavItem(Icons.history_outlined, 2),
-              _buildNavItem(Icons.account_balance_wallet_outlined, 3),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 2;
+                  });
+                },
+                child: Icon(
+                  Icons.history_outlined,
+                  size: 30,
+                  color: index == 2
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    index = 3;
+                  });
+                },
+                child: Icon(
+                  Icons.account_balance_wallet_outlined,
+                  size: 30,
+                  color: index == 3
+                      ? const Color.fromARGB(255, 33, 150, 243)
+                      : Colors.grey,
+                ),
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  // Navigation item builder for BottomAppBar
-  Widget _buildNavItem(IconData icon, int itemIndex) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          index = itemIndex; // Update the selected screen
-        });
-      },
-      child: Icon(
-        icon,
-        size: 30,
-        color: index == itemIndex
-            ? const Color.fromARGB(255, 33, 150, 243)
-            : Colors.grey,
       ),
     );
   }
