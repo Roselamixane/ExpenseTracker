@@ -1,0 +1,106 @@
+TransactionType,Date,Description,Category,Amount
+Expense,2024-05-04,Movie Ticket,Entertainment,3225.97
+Expense,2024-05-08,Groceries,Food,320.07
+Income,2024-05-09,Project Payment,Freelance,21612.4
+Expense,2024-05-13,Bus Fare,Transport,3128.24
+Expense,2024-05-15,Groceries,Food,4582.48
+Expense,2024-05-22,Electricity Bill,Utilities,160.72
+Expense,2024-06-19,Electricity Bill,Utilities,3328.96
+Income,2024-06-20,Project Payment,Freelance,16575.4
+Expense,2024-06-23,Pharmacy,Health,2315.36
+Income,2024-06-25,Project Payment,Freelance,22320.98
+Income,2024-06-30,Project Payment,Freelance,15278.38
+Income,2024-07-02,Birthday Gift,Gift,5621.3
+Expense,2024-07-05,Monthly Rent,Rent,1179.33
+Expense,2024-07-10,Bus Fare,Transport,557.34
+Income,2024-07-16,Birthday Gift,Gift,10086.08
+Income,2024-07-17,Monthly Salary,Salary,15669.8
+Income,2024-07-19,Monthly Salary,Salary,14956.02
+Income,2024-07-21,Project Payment,Freelance,10754.02
+Expense,2024-07-23,Pharmacy,Health,466.54
+Expense,2024-07-25,Bus Fare,Transport,4339.22
+Income,2024-07-26,Birthday Gift,Gift,21029.22
+Expense,2024-07-27,Pharmacy,Health,2643.4
+Expense,2024-07-28,Electricity Bill,Utilities,1286.69
+Expense,2024-07-29,Monthly Rent,Rent,771.32
+Expense,2024-07-30,Bus Fare,Transport,1717.55
+Income,2024-07-31,Project Payment,Freelance,9152.45
+Expense,2024-08-04,Groceries,Food,3691.78
+Expense,2024-08-05,Monthly Rent,Rent,2506.06
+Income,2024-08-06,Project Payment,Freelance,21680.28
+Expense,2024-08-07,Movie Ticket,Entertainment,2016.72
+Income,2024-08-09,Monthly Salary,Salary,21254.24
+Expense,2024-08-10,Electricity Bill,Utilities,671.52
+Expense,2024-08-14,Electricity Bill,Utilities,1137.17
+Income,2024-08-18,Birthday Gift,Gift,20008.11
+Expense,2024-08-24,Movie Ticket,Entertainment,290.96
+Expense,2024-08-26,Pharmacy,Health,415.78
+Expense,2024-09-01,Bus Fare,Transport,3591.48
+Expense,2024-09-05,Monthly Rent,Rent,1436.88
+Expense,2024-09-06,Groceries,Food,2526.43
+Income,2024-09-11,Birthday Gift,Gift,22234.29
+Expense,2024-09-12,Groceries,Food,4803.77
+Expense,2024-09-15,Groceries,Food,206.94
+Expense,2024-09-21,Bus Fare,Transport,4942.78
+Expense,2024-09-22,Movie Ticket,Entertainment,2506.75
+Expense,2024-09-23,Groceries,Food,2895.95
+Income,2024-09-25,Project Payment,Freelance,7121.46
+Expense,2024-10-09,Groceries,Food,2815.67
+Expense,2024-10-10,Movie Ticket,Entertainment,533.12
+Expense,2024-10-16,Bus Fare,Transport,1319.02
+Expense,2024-10-19,Groceries,Food,464.75
+Income,2024-10-25,Project Payment,Freelance,16038.54
+Income,2024-10-30,Monthly Salary,Salary,24183.76
+Expense,2024-10-31,Bus Fare,Transport,1770.9
+Income,2024-11-08,Monthly Salary,Salary,18567.26
+Income,2024-11-12,Monthly Salary,Salary,17617.7
+Income,2024-11-17,Monthly Salary,Salary,21929.96
+Expense,2024-11-19,Pharmacy,Health,2303.81
+Expense,2024-11-25,Movie Ticket,Entertainment,115.41
+Expense,2024-12-02,Groceries,Food,205.56
+Expense,2024-12-03,Electricity Bill,Utilities,161.66
+Income,2024-12-09,Project Payment,Freelance,17368.8
+Income,2024-12-10,Monthly Salary,Salary,6694.55
+Income,2024-12-15,Monthly Salary,Salary,10745.26
+Income,2024-12-16,Project Payment,Freelance,15537.42
+Expense,2024-12-18,Movie Ticket,Entertainment,4023.71
+Income,2024-12-21,Birthday Gift,Gift,6344.66
+Expense,2024-12-23,Electricity Bill,Utilities,1301.5
+Income,2024-12-27,Project Payment,Freelance,20454.6
+Income,2024-12-31,Birthday Gift,Gift,13422.84
+Income,2025-01-07,Monthly Salary,Salary,17404.48
+Income,2025-01-22,Birthday Gift,Gift,6912.94
+Expense,2025-01-27,Monthly Rent,Rent,815.09
+Income,2025-01-30,Monthly Salary,Salary,9437.82
+Expense,2025-02-01,Bus Fare,Transport,2383.14
+Income,2025-02-03,Birthday Gift,Gift,9790.09
+Expense,2025-02-10,Bus Fare,Transport,1906.74
+Expense,2025-02-11,Groceries,Food,2652.4
+Income,2025-02-14,Project Payment,Freelance,23562.07
+Expense,2025-02-16,Pharmacy,Health,226.85
+Expense,2025-02-18,Bus Fare,Transport,4226.16
+Expense,2025-02-20,Monthly Rent,Rent,4723.99
+Expense,2025-02-28,Bus Fare,Transport,1425.82
+Expense,2025-03-04,Electricity Bill,Utilities,761.79
+Expense,2025-03-05,Monthly Rent,Rent,3800.52
+Income,2025-03-06,Birthday Gift,Gift,6635.82
+Income,2025-03-09,Monthly Salary,Salary,23090.17
+Income,2025-03-11,Project Payment,Freelance,15055.23
+Expense,2025-03-17,Pharmacy,Health,4230.44
+Income,2025-03-18,Monthly Salary,Salary,24595.23
+Expense,2025-03-19,Movie Ticket,Entertainment,1938.86
+Income,2025-03-20,Monthly Salary,Salary,13687.55
+Expense,2025-03-23,Pharmacy,Health,1426.63
+Income,2025-03-27,Project Payment,Freelance,6534.89
+Expense,2025-03-31,Electricity Bill,Utilities,1752.73
+Expense,2025-04-01,Electricity Bill,Utilities,1549.22
+Expense,2025-04-04,Monthly Rent,Rent,3702.06
+Income,2025-04-05,Monthly Salary,Salary,13907.84
+Expense,2025-04-07,Pharmacy,Health,4338.07
+Expense,2025-04-09,Monthly Rent,Rent,757.09
+Income,2025-04-11,Birthday Gift,Gift,21722.04
+Expense,2025-04-12,Pharmacy,Health,1815.0
+Income,2025-04-14,Monthly Salary,Salary,17111.39
+Expense,2025-04-24,Electricity Bill,Utilities,3082.28
+Expense,2025-04-25,Groceries,Food,2174.96
+Expense,2025-04-28,Monthly Rent,Rent,4695.1
