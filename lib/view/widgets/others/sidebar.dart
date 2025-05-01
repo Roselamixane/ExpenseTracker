@@ -6,6 +6,10 @@ import 'package:app/view/pages/Auth.dart';
 import 'package:app/view/provider/themeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'convertCurrency.dart';
 
 class Sidebar extends StatelessWidget {
   final Userdata user;
@@ -65,6 +69,14 @@ class Sidebar extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => const Auth()),
                     (route) => false,
               );
+            },
+          ),
+          // Currency conversion UI
+          ListTile(
+            leading: const Icon(Icons.currency_exchange),
+            title: const Text('Currency Converter'),
+            onTap: () {
+              _showCurrencyConverterDialog(context);
             },
           ),
         ],
@@ -127,6 +139,85 @@ class Sidebar extends StatelessWidget {
             child: const Text('Change'),
           ),
         ],
+      ),
+    );
+  }
+
+  // Show currency conversion dialog
+  void _showCurrencyConverterDialog(BuildContext context) {
+    final amountController = TextEditingController();
+    String fromCurrency = 'USD';
+    String toCurrency = 'INR';
+    double convertedAmount = 0.0;
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Currency Converter'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Amount'),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                DropdownButton<String>(
+                  value: fromCurrency,
+                  items: <String>['USD', 'INR', 'EUR', 'GBP'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    fromCurrency = newValue!;
+                  },
+                ),
+                const Text(' to '),
+                DropdownButton<String>(
+                  value: toCurrency,
+                  items: <String>['USD', 'INR', 'EUR', 'GBP'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    toCurrency = newValue!;
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () async {
+                final amount = double.tryParse(amountController.text);
+                if (amount != null) {
+                  final result = await convertCurrency(fromCurrency, toCurrency, amount);
+                  convertedAmount = result;
+                }
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: const Text('Converted Amount'),
+                    content: Text('Converted amount: $convertedAmount'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: const Text('Convert'),
+            ),
+          ],
+        ),
       ),
     );
   }
