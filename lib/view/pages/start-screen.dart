@@ -2,6 +2,9 @@ import 'package:app/data/repository/dbRepository.dart' as dbrepository;
 import 'package:app/view/pages/Auth.dart';
 import 'package:app/view/pages/mainScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
+import '../../data/model/UserData.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -29,29 +32,28 @@ class StartScreen extends StatelessWidget {
                       fontSize: 48),
                 ),
               ),
-              // Image.asset(
-              //   'lib/assets/images/logoName.png',
-              //   width: 250
-              // ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        userExists ? const Main() : Auth()),
-                  ),
-                  // onPressed: () {
-                  //   print("res:");
-                  //   print(repository.readSms());
-                  // },
-
+                  onPressed: () {
+                    if (userExists) {
+                      final userBox = Hive.box('User');
+                      final userName = userBox.get('currentUser') as String;
+                      final currentUser = userBox.get(userName) as Userdata;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => Main(currentUser: currentUser),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => Auth()));
+                    }
+                  },
                   style: ButtonStyle(
-                      minimumSize: const WidgetStatePropertyAll(Size(250, 70)),
-                      backgroundColor:
-                      const WidgetStatePropertyAll(Colors.lightBlue),
-                      shape: WidgetStatePropertyAll(
+                      minimumSize: const MaterialStatePropertyAll(Size(250, 70)),
+                      backgroundColor: const MaterialStatePropertyAll(Colors.lightBlue),
+                      shape: MaterialStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
