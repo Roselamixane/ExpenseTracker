@@ -1,0 +1,129 @@
+TransactionType,Date,Description,Category,Amount
+Expense,2024-01-02,Rent,Home,734.43
+Expense,2024-01-07,Flight,Travel,104.46
+Expense,2024-01-08,Electricity Bill,Bills,491.31
+Expense,2024-01-10,Electricity Bill,Bills,188.47
+Expense,2024-01-11,Electronics,Shopping,970.54
+Expense,2024-01-21,Clothes,Shopping,419.58
+Expense,2024-01-22,Bank Transfer,Transfer,478.5
+Expense,2024-01-25,Gifts,Shopping,579.18
+Expense,2024-02-01,Snacks,Food,103.3
+Income,2024-02-01,Bonus,Salary,2972.37
+Expense,2024-02-02,Movie Ticket,Entertainment,940.71
+Expense,2024-02-04,Bank Transfer,Transfer,505.35
+Expense,2024-02-07,Credit Card Payment,Credit Card,690.27
+Expense,2024-02-18,Internet,Bills,840.92
+Expense,2024-02-24,Course Subscription,Education,68.54
+Expense,2024-02-25,Water Bill,Bills,604.42
+Expense,2024-02-28,Medicine,Medical,968.45
+Income,2024-03-01,Freelance Work,Salary,2348.08
+Expense,2024-03-02,Electronics,Shopping,619.87
+Expense,2024-03-04,Snacks,Food,51.97
+Expense,2024-03-12,Credit Card Payment,Credit Card,253.72
+Expense,2024-03-16,Restaurant,Food,700.42
+Expense,2024-03-20,Bank Transfer,Transfer,962.24
+Expense,2024-03-22,Flight,Travel,591.16
+Expense,2024-03-23,Tuition Fee,Education,224.45
+Expense,2024-03-26,Appliances,Home,415.73
+Expense,2024-03-29,Tuition Fee,Education,697.57
+Expense,2024-03-30,Gifts,Shopping,953.6
+Expense,2024-04-01,Hotel,Travel,569.01
+Income,2024-04-01,Freelance Work,Salary,2308.59
+Expense,2024-04-09,Bank Transfer,Transfer,592.06
+Expense,2024-04-17,Water Bill,Bills,960.1
+Expense,2024-04-25,Books,Education,107.73
+Expense,2024-05-06,Electronics,Shopping,465.6
+Expense,2024-05-10,Wallet Top-up,Transfer,145.75
+Expense,2024-05-12,Tuition Fee,Education,675.9
+Expense,2024-05-17,Bus Ticket,Travel,592.13
+Expense,2024-05-21,Wallet Top-up,Transfer,211.01
+Expense,2024-05-23,Electronics,Shopping,968.51
+Expense,2024-05-25,Wallet Top-up,Transfer,37.9
+Expense,2024-05-28,Groceries,Food,543.22
+Expense,2024-05-29,Miscellaneous,Others,711.3
+Income,2024-06-01,Bonus,Salary,2360.62
+Expense,2024-06-05,Internet,Bills,756.64
+Expense,2024-06-08,Movie Ticket,Entertainment,963.2
+Expense,2024-06-11,Credit Card Payment,Credit Card,294.17
+Expense,2024-06-13,Movie Ticket,Entertainment,450.48
+Expense,2024-06-16,Snacks,Food,717.91
+Expense,2024-06-24,Snacks,Food,414.78
+Expense,2024-06-27,Wallet Top-up,Transfer,567.77
+Income,2024-07-01,Monthly Salary,Salary,3456.5
+Expense,2024-07-02,Internet,Bills,377.58
+Expense,2024-07-06,Hotel,Travel,566.77
+Expense,2024-07-10,Credit Card Payment,Credit Card,312.02
+Expense,2024-07-12,Wallet Top-up,Transfer,795.77
+Expense,2024-07-15,Internet,Bills,664.45
+Expense,2024-07-18,Groceries,Food,541.82
+Expense,2024-07-22,Tuition Fee,Education,908.81
+Expense,2024-07-24,Clothes,Shopping,819.82
+Expense,2024-07-26,Hotel,Travel,792.87
+Expense,2024-07-29,Credit Card Payment,Credit Card,845.04
+Income,2024-08-01,Freelance Work,Salary,2714.23
+Expense,2024-08-02,Furniture,Home,259.21
+Expense,2024-08-03,Tuition Fee,Education,690.19
+Expense,2024-08-05,Groceries,Food,863.92
+Expense,2024-08-07,Wallet Top-up,Transfer,357.85
+Expense,2024-08-08,Credit Card Payment,Credit Card,970.68
+Expense,2024-08-11,Rent,Home,652.66
+Expense,2024-08-12,Appliances,Home,900.59
+Expense,2024-08-18,Furniture,Home,990.14
+Expense,2024-08-21,Game Subscription,Entertainment,865.46
+Expense,2024-08-23,Books,Education,857.13
+Expense,2024-08-24,Credit Card Payment,Credit Card,755.5
+Expense,2024-08-29,Bank Transfer,Transfer,626.43
+Expense,2024-09-01,Bank Transfer,Transfer,962.35
+Income,2024-09-01,Monthly Salary,Salary,3330.44
+Expense,2024-09-08,Electricity Bill,Bills,708.54
+Expense,2024-09-09,Hotel,Travel,220.16
+Expense,2024-09-12,Water Bill,Bills,403.4
+Expense,2024-09-13,Electronics,Shopping,361.78
+Expense,2024-09-14,Appliances,Home,396.87
+Expense,2024-09-15,Concert,Entertainment,997.49
+Expense,2024-09-16,Electricity Bill,Bills,207.18
+Expense,2024-09-28,Wallet Top-up,Transfer,948.65
+Expense,2024-09-29,Credit Card Payment,Credit Card,381.7
+Income,2024-10-01,Monthly Salary,Salary,2784.13
+Expense,2024-10-04,Credit Card Payment,Credit Card,480.37
+Expense,2024-10-07,Books,Education,652.95
+Expense,2024-10-10,Credit Card Payment,Credit Card,132.83
+Expense,2024-10-11,Game Subscription,Entertainment,399.55
+Expense,2024-10-12,Bus Ticket,Travel,603.44
+Expense,2024-10-13,Appliances,Home,917.6
+Expense,2024-10-14,Clothes,Shopping,284.84
+Expense,2024-10-15,Wallet Top-up,Transfer,920.29
+Expense,2024-10-16,Therapy,Medical,770.02
+Expense,2024-10-21,Electricity Bill,Bills,657.44
+Expense,2024-10-22,Game Subscription,Entertainment,577.16
+Expense,2024-10-24,Rent,Home,157.55
+Expense,2024-10-27,Credit Card Payment,Credit Card,889.8
+Expense,2024-10-29,Bus Ticket,Travel,283.56
+Expense,2024-10-30,Miscellaneous,Others,892.51
+Expense,2024-10-31,Wallet Top-up,Transfer,568.24
+Income,2024-11-01,Freelance Work,Salary,3881.2
+Expense,2024-11-04,Gifts,Shopping,275.1
+Expense,2024-11-12,Concert,Entertainment,921.92
+Expense,2024-11-13,Tuition Fee,Education,305.02
+Expense,2024-11-15,Books,Education,657.35
+Expense,2024-11-18,Gifts,Shopping,838.07
+Expense,2024-11-20,Credit Card Payment,Credit Card,245.77
+Expense,2024-11-24,Flight,Travel,171.81
+Expense,2024-11-27,Credit Card Payment,Credit Card,874.89
+Income,2024-12-01,Bonus,Salary,3014.49
+Expense,2024-12-03,Electronics,Shopping,557.73
+Expense,2024-12-04,Miscellaneous,Others,127.36
+Expense,2024-12-06,Groceries,Food,726.88
+Expense,2024-12-10,Rent,Home,476.84
+Expense,2024-12-11,Miscellaneous,Others,693.52
+Expense,2024-12-12,Gifts,Shopping,391.05
+Expense,2024-12-13,Gifts,Shopping,222.36
+Expense,2024-12-14,Game Subscription,Entertainment,979.62
+Expense,2024-12-15,Bus Ticket,Travel,202.66
+Expense,2024-12-16,Bank Transfer,Transfer,648.4
+Expense,2024-12-18,Bank Transfer,Transfer,390.84
+Expense,2024-12-20,Restaurant,Food,881.82
+Expense,2024-12-21,Credit Card Payment,Credit Card,455.63
+Expense,2024-12-22,Electricity Bill,Bills,306.0
+Expense,2024-12-23,Miscellaneous,Others,917.39
+Expense,2024-12-25,Water Bill,Bills,670.37
