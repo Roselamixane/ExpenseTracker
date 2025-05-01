@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:app/data/model/UserData.dart';
@@ -6,8 +5,6 @@ import 'package:app/view/pages/Auth.dart';
 import 'package:app/view/provider/themeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import 'convertCurrency.dart';
 
@@ -26,22 +23,44 @@ class Sidebar extends StatelessWidget {
             accountName: Text(user.userName),
             accountEmail: Text('${user.userName.toLowerCase()}@gmail.com'),
             currentAccountPicture: const CircleAvatar(
-              child: Icon(Icons.person),
+              child: Icon(Icons.person, size: 30),
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          SwitchListTile(
-            value: themeProvider.isDarkMode,
+
+          // Dark mode switch
+          ListTile(
+            leading: const Icon(Icons.brightness_6),
             title: const Text('Dark Mode'),
-            secondary: const Icon(Icons.brightness_6),
-            onChanged: themeProvider.toggleTheme,
+            trailing: Switch(
+              value: themeProvider.isDarkMode,
+              onChanged: themeProvider.toggleTheme,
+            ),
           ),
+
+          const Divider(),
+
+          // Change password
           ListTile(
             leading: const Icon(Icons.lock_reset),
             title: const Text('Change Password'),
             onTap: () => _changePassword(context, user),
           ),
+
+          // Currency Converter
           ListTile(
-            leading: const Icon(Icons.logout),
+            leading: const Icon(Icons.currency_exchange),
+            title: const Text('Currency Converter'),
+            onTap: () => _showCurrencyConverterDialog(context),
+          ),
+
+          const Spacer(),
+
+          // Logout
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.orange),
             title: const Text('Logout'),
             onTap: () async {
               final userBox = Hive.box('User');
@@ -55,10 +74,33 @@ class Sidebar extends StatelessWidget {
               );
             },
           ),
+
+          // Delete account (with confirmation)
           ListTile(
-            leading: const Icon(Icons.delete_forever),
+            leading: const Icon(Icons.delete_forever, color: Colors.red),
             title: const Text('Delete Account'),
-            onTap: () async {
+            onTap: () => _confirmDelete(context, user),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDelete(BuildContext context, Userdata user) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Confirm Deletion'),
+        content: const Text('Are you sure you want to delete your account? This action cannot be undone.'),
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Delete'),
+            onPressed: () async {
               final userBox = Hive.box('User');
               await userBox.delete(user.userName);
               await userBox.delete('currentUser');
@@ -69,14 +111,6 @@ class Sidebar extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => const Auth()),
                     (route) => false,
               );
-            },
-          ),
-          // Currency conversion UI
-          ListTile(
-            leading: const Icon(Icons.currency_exchange),
-            title: const Text('Currency Converter'),
-            onTap: () {
-              _showCurrencyConverterDialog(context);
             },
           ),
         ],
@@ -143,82 +177,121 @@ class Sidebar extends StatelessWidget {
     );
   }
 
-  // Show currency conversion dialog
   void _showCurrencyConverterDialog(BuildContext context) {
     final amountController = TextEditingController();
-    String fromCurrency = 'USD';
-    String toCurrency = 'INR';
+    String fromCurrency = 'NPR';
+    String toCurrency = 'USD';
     double convertedAmount = 0.0;
 
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Currency Converter'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Amount'),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                DropdownButton<String>(
-                  value: fromCurrency,
-                  items: <String>['USD', 'INR', 'EUR', 'GBP'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    fromCurrency = newValue!;
-                  },
-                ),
-                const Text(' to '),
-                DropdownButton<String>(
-                  value: toCurrency,
-                  items: <String>['USD', 'INR', 'EUR', 'GBP'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    toCurrency = newValue!;
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () async {
-                final amount = double.tryParse(amountController.text);
-                if (amount != null) {
-                  final result = await convertCurrency(fromCurrency, toCurrency, amount);
-                  convertedAmount = result;
-                }
-                showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    title: const Text('Converted Amount'),
-                    content: Text('Converted amount: $convertedAmount'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('OK'),
+      builder: (_) => StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            backgroundColor: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            title: const Text('Currency Converter'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: amountController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Amount (e.g. 1200)',
+                      filled: true,
+                      fillColor: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey.shade800
+                          : Colors.grey.shade200,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      prefixIcon: const Icon(Icons.money),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DropdownButton<String>(
+                        value: fromCurrency,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            fromCurrency = newValue!;
+                          });
+                        },
+                        items: ['NPR', 'USD', 'INR', 'EUR', 'GBP']
+                            .map((String value) => DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        ))
+                            .toList(),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Icon(Icons.compare_arrows),
+                      ),
+                      DropdownButton<String>(
+                        value: toCurrency,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            toCurrency = newValue!;
+                          });
+                        },
+                        items: ['NPR', 'USD', 'INR', 'EUR', 'GBP']
+                            .map((String value) => DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        ))
+                            .toList(),
                       ),
                     ],
                   ),
-                );
-              },
-              child: const Text('Convert'),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      final amount = double.tryParse(amountController.text);
+                      if (amount != null) {
+                        final result = await convertCurrency(fromCurrency, toCurrency, amount);
+                        setState(() {
+                          convertedAmount = result;
+                        });
+
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            backgroundColor: Theme.of(context).cardColor,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            title: const Text('Converted Amount'),
+                            content: Text(
+                              '$amount $fromCurrency = ${convertedAmount.toStringAsFixed(2)} $toCurrency',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        Fluttertoast.showToast(msg: 'Enter a valid amount');
+                      }
+                    },
+                    icon: const Icon(Icons.calculate),
+                    label: const Text('Convert'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
+
 }
