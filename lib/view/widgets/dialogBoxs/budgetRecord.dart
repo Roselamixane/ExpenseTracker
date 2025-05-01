@@ -26,104 +26,104 @@ class _BudgetDialogState extends State<BudgetDialog> {
     final provider = Provider.of<summaryProvider>(context, listen: false);
     return Dialog(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: EdgeInsets.all(15),
-          child: Text(
-            "Set Budget: ",
-            style: TextStyle(
-                fontSize: 25, fontWeight: FontWeight.bold, color: Colors.blue),
-          ),
-        ),
-        Padding(
-            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Category:"),
-                DropDownBox(
-                    items: Items,
-                    defaultItem: SelectedItem,
-                    updatedValue: (String value) {
-                      SelectedItem = value;
-                    }),
-              ],
-            )),
-        Padding(
-          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Type:"),
-              DropDownBox(
-                items: Duration,
-                defaultItem: SelectedDuration,
-                updatedValue: (String value) {
-                  SelectedDuration = value;
-                },
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: Text(
+                "Set Budget: ",
+                style: TextStyle(
+                    fontSize: 25, fontWeight: FontWeight.bold, color: Colors.blue),
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Amount:"),
-              Container(
-                height: 50,
-                width: 150,
-                child: TextField(
-                    controller: amountcontroller,
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(125, 0, 0, 0), width: 2)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(125, 0, 0, 0),
-                                width: 2)))),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: const WidgetStatePropertyAll(Colors.lightBlue),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+            ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Category:"),
+                    DropDownBox(
+                        items: Items,
+                        defaultItem: SelectedItem,
+                        updatedValue: (String value) {
+                          SelectedItem = value;
+                        }),
+                  ],
                 )),
-            onPressed: () async {
-              amountcontroller.text.isEmpty ||
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Type:"),
+                  DropDownBox(
+                    items: Duration,
+                    defaultItem: SelectedDuration,
+                    updatedValue: (String value) {
+                      SelectedDuration = value;
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Amount:"),
+                  Container(
+                    height: 50,
+                    width: 150,
+                    child: TextField(
+                        controller: amountcontroller,
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(125, 0, 0, 0), width: 2)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(125, 0, 0, 0),
+                                    width: 2)))),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: const WidgetStatePropertyAll(Colors.lightBlue),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    )),
+                onPressed: () async {
+                  amountcontroller.text.isEmpty ||
                       double.parse(amountcontroller.text) <= 0
-                  ? await showDialog(
+                      ? await showDialog(
                       context: context,
                       builder: (context) {
                         return alertBox();
                       })
-                  : {
-                      dbrepository.newBudget(SelectedItem, SelectedDuration,
-                          double.parse(amountcontroller.text)),
-                      provider.updateBudgets(),
-                      Navigator.pop(context)
-                    };
-            },
-            child: Text(
-              "Confirm",
-              style: TextStyle(color: Colors.white),
+                      : {
+                    dbrepository.newBudget(SelectedItem, SelectedDuration,
+                        double.parse(amountcontroller.text)),
+                    provider.updateBudgets(),
+                    Navigator.pop(context)
+                  };
+                },
+                child: Text(
+                  "Confirm",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 }

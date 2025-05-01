@@ -47,7 +47,7 @@ List<List<String>> categoriesAndKeywords = [
   ['Credit Card', 'ccbp'],
   [
     'Education',
-    'Rose Lamichhane',
+    'rahul palanivel',
     'vitap',
     'aparnajha',
     'rcis',

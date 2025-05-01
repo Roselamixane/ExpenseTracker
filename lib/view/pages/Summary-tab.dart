@@ -78,7 +78,7 @@ class SummaryTab extends StatelessWidget {
                                               color: selectedTotal == true
                                                   ? Colors.black
                                                   : const Color.fromARGB(
-                                                  255, 85, 89, 89)))),
+                                                  255, 200, 202, 202)))),
                                   IconButton(
                                       onPressed: () {
                                         if (currentYear <

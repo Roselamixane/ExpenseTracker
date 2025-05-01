@@ -49,15 +49,15 @@ class BudgetTab extends StatelessWidget {
                                   title: Text(rowData.duration),
                                   subtitle: Text(rowData.duration == "Monthly"
                                       ? repository.formatDate(rowData.date)[1] +
-                                          " " +
-                                          repository.formatDate(rowData.date)[2]
+                                      " " +
+                                      repository.formatDate(rowData.date)[2]
                                       : repository.formatDate(rowData.date)[2]),
                                   trailing: Column(
                                     children: [
                                       Text(
                                         repository
-                                                .formatAmount(budgetamt)
-                                                .toString() +
+                                            .formatAmount(budgetamt)
+                                            .toString() +
                                             "/" +
                                             repository.formatAmount(
                                                 rowData.Budget_amount),

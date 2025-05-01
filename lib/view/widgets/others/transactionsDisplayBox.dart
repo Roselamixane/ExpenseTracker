@@ -41,24 +41,24 @@ class TransactionData extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: index == 0
                               ? const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black)
                               : const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)),
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black)),
                       title: Text((rowData[1].toString()),
                           textAlign: TextAlign.center,
                           style: index == 0
                               ? const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black)
                               : const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)),
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black)),
                       trailing: Text(
                           (rowData[4] == null ? "0" : rowData[4].toString()) +
                               "   " +
@@ -68,13 +68,13 @@ class TransactionData extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: index == 0
                               ? const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black)
                               : const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black)),
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black)),
                     ),
                   );
                 },
