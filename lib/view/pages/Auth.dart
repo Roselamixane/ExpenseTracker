@@ -46,7 +46,15 @@ class _AuthState extends State<Auth> {
     await userBox.put(name, user);
     await userBox.put('currentUser', name);
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
+    // Retrieve the current user as a Userdata object
+    final currentUser = userBox.get(name) as Userdata;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => Main(currentUser: currentUser),
+      ),
+    );
   }
 
   void logInUser() {
@@ -65,7 +73,15 @@ class _AuthState extends State<Auth> {
 
     userBox.put('currentUser', name);
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Main()));
+    // Retrieve the current user as a Userdata object
+    final currentUser = userBox.get(name) as Userdata;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => Main(currentUser: currentUser),
+      ),
+    );
   }
 
   void _showSnack(String msg) {

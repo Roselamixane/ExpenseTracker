@@ -1,8 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/material.dart';
 import 'package:app/view/widgets/cards/creditCard.dart';
 import 'package:app/view/widgets/charts/cashFlow.dart';
-import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,39 +18,41 @@ class _HomeState extends State<Home> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Overview title
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Overview",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 30,
-                      color: const Color.fromARGB(255, 27, 118, 192),
-                    ),
+                child: Text(
+                  "Overview",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 27, 118, 192),
                   ),
                 ),
               ),
+
+              // Credit card widget
               Center(child: creditCard()),
+
+              // Cash flow title
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Cash Flow",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 30,
-                      color: const Color.fromARGB(255, 27, 118, 192),
-                    ),
+                child: Text(
+                  "Cash Flow",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 27, 118, 192),
                   ),
                 ),
               ),
+
+              // Cash flow chart widget
               Center(child: cashFlow()),
-              SizedBox(height: 30)
+
+              SizedBox(height: 30),
             ],
           ),
         ),
