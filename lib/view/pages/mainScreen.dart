@@ -5,13 +5,12 @@ import 'package:app/view/pages/Budget-tab.dart';
 import 'package:app/view/pages/Summary-tab.dart';
 import 'package:app/view/pages/Transactions-tab.dart';
 import 'package:app/view/pages/home-screen.dart';
-
 import '../widgets/dialogBoxs/addBox.dart';
 
 class Main extends StatefulWidget {
-  final Userdata currentUser; // Declare currentUser to accept data
+  final Userdata currentUser;
 
-  const Main({Key? key, required this.currentUser}) : super(key: key); // Constructor to accept currentUser
+  const Main({Key? key, required this.currentUser}) : super(key: key);
 
   @override
   _MainState createState() => _MainState();
@@ -36,35 +35,36 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    // Get current theme mode (light or dark)
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      // Drawer with sidebar, passing currentUser for dynamic info
       drawer: Sidebar(user: widget.currentUser),
 
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 243, 237, 247),
-        shadowColor: const Color.fromARGB(255, 243, 237, 247),
+        backgroundColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
+        shadowColor: isDarkMode ? Colors.grey : const Color.fromARGB(255, 243, 237, 247),
         elevation: 1,
         scrolledUnderElevation: 1,
-        surfaceTintColor: const Color.fromARGB(255, 243, 237, 247),
+        surfaceTintColor: isDarkMode ? Colors.black : const Color.fromARGB(255, 243, 237, 247),
         toolbarHeight: 80,
         title: Text(
-          index == 0 ? "Welcome ${widget.currentUser.userName}" : titles[index], // Using currentUser here
-          style: const TextStyle(
+          index == 0 ? "Welcome ${widget.currentUser.userName}" : titles[index],
+          style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w800,
-            color: Color.fromARGB(255, 27, 118, 192),
+            color: isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 118, 192),
           ),
         ),
       ),
       body: screens[index], // Display the selected screen
 
-      // Floating Action Button
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
             context: context,
             builder: (context) {
-              return const Addbox(); // Example of an Add box widget
+              return const Addbox();
             },
           );
         },
@@ -73,7 +73,6 @@ class _MainState extends State<Main> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
-      // Bottom Navigation Bar
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Padding(
